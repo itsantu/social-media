@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
 
+
 const PostForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [fetching, setFetching] = useState(false)
   const navigate = useNavigate()
 
   const handleImageChange = (e) => {
@@ -15,6 +17,7 @@ const PostForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFetching(true)
 
     const formData = new FormData();
     formData.append('title', title);
@@ -35,6 +38,7 @@ const PostForm = () => {
 
       const result = await response.json();
       console.log(result)
+      setFetching(!fetching)
       setSuccess('Post created successfully');
       setError('');
       navigate("/")
@@ -79,7 +83,8 @@ const PostForm = () => {
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded"
+          className="bg-blue-500 hover:bg-blue-700 duration-150 text-white p-3 w-full  rounded-md"
+          disabled={fetching}
         >
           Upload
         </button>
