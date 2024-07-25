@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuthContext} from '../../hooks/useAuthContext'
 
 const EditForm = () => {
+  const {user} = useAuthContext()
   const location = useLocation();
   const navigate = useNavigate();
   const post = location.state || {}; // Fallback in case post is undefined
@@ -18,6 +20,7 @@ const EditForm = () => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        'Authorization' : `Bearer ${user.token}`
       },
       body: JSON.stringify({ title, description }),
     });
@@ -33,8 +36,8 @@ const EditForm = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-[600px] m-10">
-      <h1 className="text-2xl font-bold mb-4">Edit Post</h1>
+    <div className="container mx-auto p-4 max-w-[600px] m-6">
+      <h2 className="text-3xl font-semibold mb-5">Edit Post</h2>
       <img
         src={post.imageUrl}
         alt={post.title}

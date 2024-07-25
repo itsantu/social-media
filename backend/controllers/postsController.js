@@ -3,10 +3,10 @@ const Post = require("../models/postModel");
 
 //Get all posts
 const getAllPosts = async (req, res) => {
-  const posts = await Post.find({});
+  const posts = await Post.find().populate('createdBy', 'username').sort({ createdAt: -1 });
   res.status(200).json(posts);
 };
-
+  
 // Delete a post
 const deletePost = async (req, res) => {
   const { id } = req.params;

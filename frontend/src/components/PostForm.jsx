@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
+import { useAuthContext} from '../../hooks/useAuthContext'
 
 
 const PostForm = () => {
+  const {user} = useAuthContext()
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
@@ -30,6 +32,9 @@ const PostForm = () => {
       const response = await fetch('http://localhost:8000/api/upload', {
         method: 'POST',
         body: formData,
+        headers:{
+          'Authorization' : `Bearer ${user.token}`
+        }
       });
 
       if (!response.ok) {
@@ -51,7 +56,7 @@ const PostForm = () => {
 
   return (
     <div className="container mx-auto p-4 max-w-[800px] m-10">
-      <h1 className="text-2xl font-bold mb-4">Upload Post</h1>
+      <h2 className="text-3xl font-semibold my-5">Upload Post</h2>
       <form onSubmit={handleSubmit} encType='multipart/form-data'>
         <div className="mb-4">
           <label className="block text-gray-700">Title</label>
