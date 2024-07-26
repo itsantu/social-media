@@ -18,9 +18,9 @@ header {
   background: #fff;
 }
 header .container {
-  max-width: 1400px;
+  max-width: 1500px;
   margin: 0 auto;
-  padding: 30px 0;
+  padding: 5px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,17 +30,13 @@ header a {
   text-decoration: none;
 }
 .container h1 {
-  font-size: 2.5rem;
-  /* font-family: "Oleo Script", system-ui;
-  font-weight: 400;
-  font-style: normal; */
-
   font-family: "Satisfy", cursive;
   font-weight: 500;
   font-style: normal;
 }
-nav button {
-  margin-left: 10px;
+
+label{
+  user-select: none;
 }
 
 div.error {

@@ -35,7 +35,7 @@ const Feed = ({ post }) => {
       <img
         src={post.imageUrl}
         alt={post.title}
-        className="w-full h-80 object-cover rounded-md"
+        className="w-full h-64 object-cover rounded-md"
       />
       <div className="p-4">
         <h2 className="text-xl font-bold">{post.title}</h2>

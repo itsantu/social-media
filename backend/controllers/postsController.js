@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Post = require("../models/postModel");
+const cloudinary = require("../utils/cloudinary");
 
 //Get all posts
 const getAllPosts = async (req, res) => {
@@ -22,7 +23,15 @@ const deletePost = async (req, res) => {
     return res.status(400).json({ error: "No such post" });
   }
 
-  res.status(200).json(post);
+  // Deleting the image from cloudinary
+  if (post) {
+    const imageUrl = post.imageUrl;
+    const folderAndImage = imageUrl.split('/').slice(-2).join('/')
+    const publicIdFromUrl = folderAndImage.split('.').slice(0, -1).join('.')
+    await cloudinary.uploader.destroy(publicIdFromUrl)
+  }
+
+  res.status(200).json(post); 
 };
 
 // Update a Post

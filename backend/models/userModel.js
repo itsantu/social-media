@@ -50,21 +50,50 @@ userSchema.statics.signup = async function (username, email, password) {
 
 // Static login method
 userSchema.statics.login = async function (email, password) {
-    if (!email || !password) {
-      throw Error("All fiels must be filled");
-    }
-    const user = await this.findOne({ email });
-    if (!user) {
-      throw Error("Incorrect Email");
-    }
+  if (!email || !password) {
+    throw Error("All fiels must be filled");
+  }
+  const user = await this.findOne({ email });
+  if (!user) {
+    throw Error("Incorrect Email");
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    throw Error("Incorrect Password");
+  }
+
+  return user;
+};
+
+userSchema.statics.changepassword = async function (email, currentPassword, newPassword) {
   
-    const match = await bcrypt.compare(password, user.password)
-    if (!match) {
-      throw Error('Incorrect Password')
-    }
-  
-    return user;
-  };
+  const user = await this.findOne({ email });
+
+  if (!user) {
+    throw Error("User not found")
+  }
+
+  const match = await bcrypt.compare(currentPassword, user.password);
+  if (!match) {
+    throw Error("Incorrect Password");
+  }
+
+  if (!validator.isStrongPassword(newPassword)) {
+    throw Error("Password is not Strong enough");
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(newPassword, salt);
+
+  const newuser = await this.findByIdAndUpdate(
+    user._id,
+    { password: hash },
+    { new: true }
+  );
+
+  return newuser
+};
 
 const User = mongoose.model("User", userSchema);
 

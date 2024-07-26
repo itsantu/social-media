@@ -23,7 +23,7 @@ export const PostListReducer = (state, action) => {
 
 export const PostListContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(PostListReducer, {
-    posts: null,
+    posts: [],
   });
 
   return (
