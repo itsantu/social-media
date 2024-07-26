@@ -20,7 +20,7 @@ const postSchema = new mongoose.Schema({
     },
     createdAt:{
         type:Date,
-        default:Date.now(),
+        default:(Date.now())*1000,
         expires:'604800s'
     }
 }, {timestamps: true})
