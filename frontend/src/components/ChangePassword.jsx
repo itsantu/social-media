@@ -79,7 +79,7 @@ const ChangePassword = () => {
         >
           Change Password
         </button>
-        {isloading && <div className="mt-4 text-slate-500" >waiting for resoponse...</div>}
+        {isloading && <div className="mt-4 text-slate-500" >Waiting for response...</div>}
         {error && <div className="mt-4 text-red-500">{error}</div>}
         {success && <div className="mt-4 text-green-600">{success}</div>}
       </form>

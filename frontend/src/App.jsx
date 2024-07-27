@@ -20,12 +20,12 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={user ? <Home /> : <Navigate to="/login"/> }/>
-          <Route path="/upload" element={user ? <PostForm /> : <Navigate to="/login"/>}/>
-          <Route path="/update" element={user ? <EditForm /> : <Navigate to="/login"/>} />
-          <Route path="/about" element={user ? <About /> : <Navigate to="/login"/>}/>
-          <Route path="about/changepassword" element={user ? <ChangePassword /> : <Navigate to="/login"/>} />
-          <Route path="about/deleteuser" element={user ? <DeleteUser /> : <Navigate to="/login"/>} />
+          <Route path="/" element={user ? <Home /> : <Navigate to="/signup"/> }/>
+          <Route path="/upload" element={user ? <PostForm /> : <Navigate to="/signup"/>}/>
+          <Route path="/update" element={user ? <EditForm /> : <Navigate to="/signup"/>} />
+          <Route path="/about" element={user ? <About /> : <Navigate to="/signup"/>}/>
+          <Route path="about/changepassword" element={user ? <ChangePassword /> : <Navigate to="/signup"/>} />
+          <Route path="about/deleteuser" element={user ? <DeleteUser /> : <Navigate to="/signup"/>} />
           <Route path="/login" element={!user ? <Login /> : <Navigate to="/"/>}/>
           <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/"/>}/>
         </Routes>

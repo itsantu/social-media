@@ -93,6 +93,7 @@ const PostForm = () => {
         >
           Upload
         </button>
+        {fetching && <div className="mt-4 text-green-600" >Uploading your post 😀</div>}
         {error && <div className="mt-4 text-red-500">{error}</div>}
         {success && <div className="mt-4 text-green-500">{success}</div>}
       </form>

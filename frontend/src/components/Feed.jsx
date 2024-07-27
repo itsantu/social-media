@@ -42,7 +42,7 @@ const Feed = ({ post }) => {
         src={post.imageUrl}
         alt={post.title}
         effect="blur"
-        className="w-full h-64 object-cover rounded-md"
+        className="w-full h-64 object-cover rounded-md select-none"
       />
       <div className="p-4">
         <h2 className="text-xl font-bold">{post.title}</h2>

@@ -21,7 +21,7 @@ const Navbar = () => {
             {user ? (
               <div className="md:flex md:items-center p-4">
               <Link to="/about">
-                <span className="border-slate-900 rounded-md p-2 border-2 flex justify-center items-center gap-2 text-md md:text-xl mb-2 md:mb-0">
+                <span className="hover:bg-slate-900 hover:text-white duration-200 border-slate-900 rounded-md p-2  border-2 flex justify-center items-center gap-2 text-md md:text-xl mb-2 md:mb-0">
                   <CgProfile />
                   {user.uname}
                 </span>
@@ -43,7 +43,7 @@ const Navbar = () => {
               </div>
               
             ) : (
-              <div>
+              <div className="py-5">
                 <Link to="/login" className="bg-slate-200  mr-4 py-2 px-3 text-sm md:py-3  md:px-5 rounded-md hover:bg-slate-400 hover:text-white duration-200">Login</Link>
                 <Link to="/signup" className="border-cyan-700 border-2 py-2 px-3 text-sm md:py-3  md:px-5 rounded-md hover:bg-cyan-700 hover:text-white duration-200" >SignUp</Link>
               </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSignup } from "../../hooks/useSignup";
 import { IoEye, IoEyeOffSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -69,6 +70,7 @@ const Signup = () => {
         >
           Sign Up
         </button>
+        <div className="mt-4 text-sm"><span>Already a user?</span><Link to="/login" className="text-blue-700 ml-2 hover:underline">Login</Link></div>
         {error && <div className="mt-4 text-red-500">{error}</div>}
       </form>
     </div>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
 import { IoEye , IoEyeOffSharp } from "react-icons/io5";
 
@@ -56,6 +57,7 @@ const Login = () => {
         >
           Login
         </button>
+        <div className="mt-4 text-sm"><span>Don't have an account ?</span><Link className="text-blue-700 ml-2 hover:underline" to="/signup">Create account</Link></div>
         {error && <div className="mt-4 text-red-500">{error}</div>}
       </form>
     </div>
