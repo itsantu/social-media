@@ -27,7 +27,8 @@ const About = () => {
       <input
         type="text"
         value={user.email}
-        disabled
+        disabled="true"
+        readOnly="true"
         className=" w-full bg-slate-200 py-2 px-1 rounded-sm"
       />
       <div className="mt-10">
@@ -37,9 +38,12 @@ const About = () => {
         >
           Change Password
         </Link>
-        <button className="bg-red-600  mr-4 py-2 px-3 text-sm md:py-3  md:px-5 rounded-md hover:bg-red-800 font-semibold hover:text-white duration-200">
+        <Link
+          to="./deleteuser"
+          className="bg-red-600  mr-4 py-2 px-3 text-sm md:py-3  md:px-5 rounded-md hover:bg-red-800 font-semibold hover:text-white duration-200"
+        >
           Delete Account
-        </button>
+        </Link>
       </div>
     </div>
   );

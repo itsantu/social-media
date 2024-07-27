@@ -66,6 +66,7 @@ userSchema.statics.login = async function (email, password) {
   return user;
 };
 
+// Static Change Password method
 userSchema.statics.changepassword = async function (email, currentPassword, newPassword) {
   
   const user = await this.findOne({ email });

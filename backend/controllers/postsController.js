@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 const Post = require("../models/postModel");
-const cloudinary = require("../utils/cloudinary");
+const { deleteImage } = require("../utils/cloudinary");
 
 //Get all posts
 const getAllPosts = async (req, res) => {
-  const posts = await Post.find().populate('createdBy', 'username').sort({ createdAt: -1 });
+  const posts = await Post.find()
+    .populate("createdBy", "username")
+    .sort({ createdAt: -1 });
   res.status(200).json(posts);
 };
-  
+
 // Delete a post
 const deletePost = async (req, res) => {
   const { id } = req.params;
@@ -24,14 +26,16 @@ const deletePost = async (req, res) => {
   }
 
   // Deleting the image from cloudinary
-  if (post) {
-    const imageUrl = post.imageUrl;
-    const folderAndImage = imageUrl.split('/').slice(-2).join('/')
-    const publicIdFromUrl = folderAndImage.split('.').slice(0, -1).join('.')
-    await cloudinary.uploader.destroy(publicIdFromUrl)
-  }
+  try {
+    if (post) {
+      const imageUrl = post.imageUrl;
+      await deleteImage(imageUrl);
+    }
 
-  res.status(200).json(post); 
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 };
 
 // Update a Post
@@ -42,7 +46,7 @@ const updatePost = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such post" });
   }
-  console.log(req.body)
+  console.log(req.body);
   const { title, description } = req.body;
 
   try {
