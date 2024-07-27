@@ -3,11 +3,16 @@ import { FaRegEdit } from "react-icons/fa";
 import { usePostListContext } from "../../hooks/usePostListContext";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const Feed = ({ post }) => {
   const { user } = useAuthContext();
   const { dispatch } = usePostListContext();
+  const [ isDeleting, setIsDeleting ] = useState(null)
   const handleClick = async () => {
+    setIsDeleting(true)
     const response = await fetch("http://localhost:8000/api/feed/" + post._id, {
       method: "DELETE",
       headers: {
@@ -18,12 +23,13 @@ const Feed = ({ post }) => {
     const json = await response.json();
 
     if (response.ok) {
+      setIsDeleting(!isDeleting)
       dispatch({ type: "DELETE_POST", payload: json });
     }
   };
 
   return (
-    <div className="border rounded-lg overflow-hidden shadow-xl p-3">
+    <div className="border-2 border-slate-200 rounded-lg overflow-hidden shadow-xl p-3">
       <div className="flex items-center justify-between">
         <p className="text-gray-700 my-2">@{post.createdBy.username}</p>
         {user.uname === post.createdBy.username && (
@@ -32,9 +38,10 @@ const Feed = ({ post }) => {
           </Link>
         )}
       </div>
-      <img
+      <LazyLoadImage
         src={post.imageUrl}
         alt={post.title}
+        effect="blur"
         className="w-full h-64 object-cover rounded-md"
       />
       <div className="p-4">
@@ -49,6 +56,7 @@ const Feed = ({ post }) => {
           <MdDelete />
         </div>
       )}
+      {isDeleting && <div className="mt-4 text-red-500" >Deleting post...</div>}
     </div>
   );
 };
