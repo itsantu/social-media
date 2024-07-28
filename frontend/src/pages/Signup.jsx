@@ -76,6 +76,7 @@ const Signup = () => {
             Login
           </Link>
         </div>
+        {isloading && <div className="mt-4 text-slate-500" >Signing you up...</div>}
         {error && <div className="mt-4 text-red-500">{error}</div>}
       </form>
     </div>
