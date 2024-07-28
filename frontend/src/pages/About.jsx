@@ -21,7 +21,7 @@ const About = () => {
   };
 
   return (
-    <div className="container  mx-auto px-6 py-10 rounded-3xl shadow-2xl w-screen md:max-w-[600px] m-6">
+    <div className="container  mx-auto px-10 py-10 rounded-3xl shadow-2xl w-screen md:max-w-[600px] mt-24">
       <h2 className="text-3xl font-semibold mb-5">@{user.uname}</h2>
       <h3 className="font-bold mb-4">Email: </h3>
       <input

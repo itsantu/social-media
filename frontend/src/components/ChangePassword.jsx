@@ -29,8 +29,8 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-[600px] m-6">
-      <h2 className="text-3xl font-semibold mb-10">Change Password</h2>
+    <div className="container mx-auto p-4 w-[85%] max-w-[600px] m-4">
+      <h2 className="text-xl md:text-3xl font-semibold mb-10">Change Password</h2>
       <form onSubmit={handleSubmit} className="px-4 py-8 bg-slate-200 rounded-lg">
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Current Password</label>

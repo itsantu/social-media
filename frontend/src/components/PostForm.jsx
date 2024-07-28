@@ -55,7 +55,7 @@ const PostForm = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-[800px] m-10">
+    <div className="container mx-auto w-[85%] p-4 max-w-[600px] m-5">
       <h2 className="text-3xl font-semibold my-5">Upload Post</h2>
       <form onSubmit={handleSubmit} encType='multipart/form-data'>
         <div className="mb-4">
@@ -84,6 +84,7 @@ const PostForm = () => {
             onChange={handleImageChange}
             className="w-full p-2 border border-gray-300 rounded"
             required
+            accept="image/*"
           />
         </div>
         <button

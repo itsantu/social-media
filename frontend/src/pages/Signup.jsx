@@ -22,7 +22,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-[600px] m-6">
+    <div className="container mx-auto p-4 w-[90%] max-w-[600px] m-6">
       <h2 className="text-3xl font-semibold mb-10">Sign Up</h2>
       <form
         onSubmit={handleSubmit}
@@ -70,7 +70,12 @@ const Signup = () => {
         >
           Sign Up
         </button>
-        <div className="mt-4 text-sm"><span>Already a user?</span><Link to="/login" className="text-blue-700 ml-2 hover:underline">Login</Link></div>
+        <div className="mt-4 text-sm">
+          <span>Already a user?</span>
+          <Link to="/login" className="text-blue-700 ml-2 hover:underline">
+            Login
+          </Link>
+        </div>
         {error && <div className="mt-4 text-red-500">{error}</div>}
       </form>
     </div>
