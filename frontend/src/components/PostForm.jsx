@@ -29,7 +29,7 @@ const PostForm = () => {
     console.log(formData.image)
 
     try {
-      const response = await fetch('http://localhost:8000/api/upload', {
+      const response = await fetch('https://social-media-fxfa.onrender.com/api/upload', {
         method: 'POST',
         body: formData,
         headers:{

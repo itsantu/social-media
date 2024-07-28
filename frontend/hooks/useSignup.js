@@ -10,7 +10,7 @@ export const useSignup = () => {
     setIsloading(true);
     setError(null);
 
-    const response = await fetch("http://localhost:8000/api/user/signup", {
+    const response = await fetch("https://social-media-fxfa.onrender.com/api/user/signup", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ username, email, password }),

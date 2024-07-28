@@ -13,7 +13,7 @@ const Feed = ({ post }) => {
   const [ isDeleting, setIsDeleting ] = useState(null)
   const handleClick = async () => {
     setIsDeleting(true)
-    const response = await fetch("http://localhost:8000/api/feed/" + post._id, {
+    const response = await fetch("https://social-media-fxfa.onrender.com/api/feed/" + post._id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,

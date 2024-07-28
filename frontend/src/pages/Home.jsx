@@ -14,7 +14,7 @@ const Home = () => {
     const fetchAllPosts = async () => {
       setFetching(true)
       try {
-        const response = await fetch("http://localhost:8000/api/feed", {
+        const response = await fetch("https://social-media-fxfa.onrender.com/api/feed", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
