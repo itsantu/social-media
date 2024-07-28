@@ -73,6 +73,7 @@ const PostForm = () => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            rows="5"
             className="w-full p-2 border border-gray-300 rounded"
             required
           ></textarea>
