@@ -34,6 +34,7 @@ const Signup = () => {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            placeholder="john"
             className="w-full p-2 border border-gray-300 rounded-md"
             required
           />
@@ -44,6 +45,7 @@ const Signup = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="example@gmail.com"
             className="w-full p-2 border border-gray-300 rounded-md"
             required
           />
@@ -70,7 +72,7 @@ const Signup = () => {
         >
           Sign Up
         </button>
-        <div className="mt-4 text-sm">
+        <div className="mt-4 text-sm select-none">
           <span>Already a user?</span>
           <Link to="/login" className="text-blue-700 ml-2 hover:underline">
             Login

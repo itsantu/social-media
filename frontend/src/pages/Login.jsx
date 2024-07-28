@@ -57,7 +57,7 @@ const Login = () => {
         >
           Login
         </button>
-        <div className="mt-4 text-sm"><span>Don't have an account ?</span><Link className="text-blue-700 ml-2 hover:underline" to="/signup">Create account</Link></div>
+        <div className="mt-4 text-sm select-none"><span>Don't have an account ?</span><Link className="text-blue-700 ml-2 hover:underline" to="/signup">Create account</Link></div>
         {isloading && <div className="mt-4 text-slate-500" >Logging in...</div>}
         {error && <div className="mt-4 text-red-500">{error}</div>}
       </form>
