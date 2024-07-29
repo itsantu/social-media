@@ -7,6 +7,24 @@ const getAllPosts = async (req, res) => {
   const posts = await Post.find()
     .populate("createdBy", "username")
     .sort({ createdAt: -1 });
+  // for present time
+  const time = new Date(Date.now()).toLocaleString();
+
+  posts.map(async(post) => {
+// it will check weather the present time matches the imageExpire. it will happen every time when some one hit the url "/"
+    if(time === post.imageExpiry){
+      await Post.findByIdAndDelete(post._id)
+
+      const url = post.imageUrl
+      let parts = url.split('/').slice(-2).join('/');
+      let [publicId] = parts.split(".")
+      try {
+        const result = await cloudinary.uploader.destroy(publicId, { invalidate: true });
+        console.log(`Deleted asset with public ID: ${publicId}`, result);
+      } catch (err) {
+        console.error(`Error deleting asset with public ID: ${publicId}`, err);
+      }
+    }
   res.status(200).json(posts);
 };
 
