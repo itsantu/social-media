@@ -13,21 +13,18 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // the reaon of adding this is about in post controller
-    imageExpire:{
-        type: String,
-        required: true
-    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
+    expireAt: {
+        type: Date,
+        default: () => new Date(Date.now() + 3*24*60*60*1000),
+        index: { expires: '3d' } // MongoDB TTL index to delete documents after 3 days
+    }
 },
-{
-    timestamps: true,
-    expire:"604800s"
-})
+{timestamps: true,})
 
 const Post = mongoose.model("post", postSchema)
 
