@@ -44,6 +44,19 @@ router.post("/", upload.single("image"), async (req, res) => {
     });
 
     res.status(201).json(newPost);
+    
+// for automat the expire of cloudinary assets
+     const publicId = await uploadResult.public_id;
+
+      await setTimeout(async () => {
+        try {
+          const result = await cloudinary.uploader.destroy(publicId, { invalidate: true });
+          console.log(`Deleted asset with public ID: ${publicId}`, result);
+        } catch (err) {
+          console.error(`Error deleting asset with public ID: ${publicId}`, err);
+        }
+      },3*24*50*60*1000);
+    
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
