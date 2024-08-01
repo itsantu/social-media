@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
 import { useAuthContext} from '../../hooks/useAuthContext'
+import { usePostListContext } from '../../hooks/usePostListContext';
 
 
 const PostForm = () => {
   const {user} = useAuthContext()
+  const {dispatch} = usePostListContext()
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
@@ -42,6 +44,7 @@ const PostForm = () => {
       }
 
       const result = await response.json();
+      dispatch({type: 'CREATE_POST', payload: {...result, createdBy: {username: user.uname}}})
       console.log(result)
       setFetching(!fetching)
       setSuccess('Post created successfully');
@@ -49,6 +52,7 @@ const PostForm = () => {
       navigate("/")
       
     } catch (err) {
+      setFetching(false)
       setError('Failed to create post');
       setSuccess('');
     }

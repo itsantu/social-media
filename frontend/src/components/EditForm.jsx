@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext} from '../../hooks/useAuthContext'
+import { usePostListContext} from '../../hooks/usePostListContext'
 
 const EditForm = () => {
   const {user} = useAuthContext()
+  const {dispatch} = usePostListContext()
   const location = useLocation();
   const navigate = useNavigate();
   const post = location.state || {}; // Fallback in case post is undefined
@@ -25,8 +27,10 @@ const EditForm = () => {
       body: JSON.stringify({ title, description }),
     });
 
+    
     if (response.ok) {
       // Handle success (e.g., redirect or show a success message)
+      dispatch({type: 'UPDATE_POST', payload: {_id:post._id, title, description}})
       navigate("/");
       setFetching(!fetching);
     } else {

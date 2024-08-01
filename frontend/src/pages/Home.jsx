@@ -1,41 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { usePostListContext } from "../../hooks/usePostListContext";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import Feed from "../components/Feed";
 import EmptyFeed from "../components/EmptyFeed";
 import FetchPost from "../components/FetchPost";
 
 const Home = () => {
-  const { posts, dispatch } = usePostListContext();
-  const [fetching, setFetching] = useState(false)
-  const { user } = useAuthContext();
-
-  useEffect(() => {
-    const fetchAllPosts = async () => {
-      setFetching(true)
-      try {
-        const response = await fetch("https://social-media-fxfa.onrender.com/api/feed", {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
-        const json = await response.json();
-
-        if (response.ok) {
-          dispatch({ type: "SET_POSTS", payload: json });
-          setFetching(false)
-        }
-        // console.log(response)
-      } catch (err) {
-        console.log(err);
-        setFetching(false)
-      }
-    };
-    if (user) {
-      fetchAllPosts();
-    }
-  }, [dispatch, user]);
-
+  const { posts, fetching } = usePostListContext();
   return (
     <div className="container mx-auto p-4 overflow-x-hidden">
       {fetching ? (
