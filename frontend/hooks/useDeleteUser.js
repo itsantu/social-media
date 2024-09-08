@@ -28,6 +28,7 @@ export const useDeleteUser = () => {
     }
     if (response.ok) {
       setIsloading(false);
+      localStorage.removeItem("user");
       dispatch({ type: "LOGOUT" });
     }
   };
