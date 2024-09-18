@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const Post = require("../models/postModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+import {generateOTP, sendOtpEmail, saveOTP, verifyOTP} from "../utils/varifyEmail";
 const { deleteImage } = require("../utils/cloudinary");
 
 const createToken = (_id) => {
@@ -22,6 +23,37 @@ const loginUser = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+// to generate otps and send to emails to varify for signup
+const getOtpForSignup = async (req, res) => {
+    const {email, userName}= req.body;
+    if(!email || !userName){
+      return res.status(400).json({message: "Email is required"})
+    }
+    try {
+      const user = await User.findOne({ email });
+      if(user){
+        return res.status(302).json({message:"user already exist with this email!!"})
+      }
+
+
+    const otp = generateOTP();
+    if(!otp){
+      return res.status(500).json({message:"problem in generating otp"})
+    }
+
+    saveOTP(userName, otp)
+
+    const otpSend = sendOtpEmail(email, otp)
+
+
+      if(!otpSend) return res.status(503).json({message:"some problem occured during sending otp"})
+
+      return res.status(201).json({message:"OTP send successfully for signup"});
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  };
 
 // SignUp user
 const signupUser = async (req, res) => {
