@@ -1,9 +1,12 @@
 const express = require("express")
-const {loginUser, signupUser, changePassword, deleteUser} = require("../controllers/userController")
+const {loginUser, getOtpForsignup, signupUser, changePassword, deleteUser} = require("../controllers/userController")
 const router = express.Router()
 
 // Login route
 router.post("/login", loginUser)
+
+// Get otp for signup 
+router.post("/get-otp-for-signup",getOtpforSignup)
 
 // Signup route
 router.post("/signup", signupUser)
