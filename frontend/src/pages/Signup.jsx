@@ -21,7 +21,6 @@ const Signup = () => {
   const handleVerifyOtpSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(username, email, password, OTP);
     await signup(username, email, password, OTP);
   };
 

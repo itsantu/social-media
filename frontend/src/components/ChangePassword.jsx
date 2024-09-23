@@ -15,8 +15,6 @@ const ChangePassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    console.log(user.email, currentPassword, newPassword);
     await changePassword( user.email, currentPassword, newPassword, confirmPassword);
   };
 

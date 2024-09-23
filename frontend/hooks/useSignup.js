@@ -6,14 +6,14 @@ export const useSignup = () => {
   const [isloading, setIsloading] = useState(null);
   const { dispatch } = useAuthContext();
 
-  const signup = async (username, email, password) => {
+  const signup = async (username, email, password, OTP) => {
     setIsloading(true);
     setError(null);
 
     const response = await fetch("https://social-media-fxfa.onrender.com/api/user/signup", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({ username, email, password, OTP }),
     });
 
     const json = await response.json();
