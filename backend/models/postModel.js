@@ -13,6 +13,12 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    likedBy: {
+        type: Map,  
+        of: Boolean,
+        default: new Map()
+
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

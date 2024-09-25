@@ -3,7 +3,7 @@ const router = express.Router();
 const requireAuth = require("../middleware/requireAuth")
 
 // import controllers
-const { getAllPosts, deletePost, updatePost } = require("../controllers/postsController");
+const { getAllPosts, deletePost, updatePost, likePost } = require("../controllers/postsController");
 
 router.use(requireAuth)
 // Get all posts
@@ -11,6 +11,8 @@ router.get("/", getAllPosts);
 
 // Delete a post with id reference
 router.delete("/:id", deletePost)
+
+router.put("/:id", likePost)
 
 router.patch("/:id", updatePost)
 
