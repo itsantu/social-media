@@ -41,7 +41,6 @@ const Feed = ({ post }) => {
   const handleLike = async () => {
     try {
       const result = await likePost({ postId: post._id, token: user.token });
-      console.log(result);
       if (!likeError) {
         const { likeResponse, likeCount } = result;
         setHasLiked(likeResponse);
@@ -75,14 +74,15 @@ const Feed = ({ post }) => {
         <p className="mt-2">{post.description}</p>
       </div>
       <div className="flex items-center justify-between">
-        <div
-          className="flex gap-1 items-center text-md mr-3 rounded-md cursor-pointer"
-          aria-disabled={likeLoading}
-          onClick={handleLike}
-        >
-          {!likeLoading && !hasLiked && <FaRegHeart className="text-xl" />} 
-          {likeLoading && <FaRegHeart className="text-xl text-gray-400"/>}
-          {!likeLoading && hasLiked && <FaHeart className="text-xl text-red-500" />} {likesCount}
+        <div className="flex gap-1 items-center text-md mr-3 rounded-md cursor-pointer">
+          <button onClick={handleLike} disabled={likeLoading}>
+            {!likeLoading && !hasLiked && <FaRegHeart className="text-xl" />}
+            {likeLoading && <FaRegHeart className="text-xl text-gray-400" />}
+            {!likeLoading && hasLiked && (
+              <FaHeart className="text-xl text-red-500" />
+            )}
+          </button>{" "}
+          {likesCount}
         </div>
         {user.uname === post.createdBy.username && (
           <div

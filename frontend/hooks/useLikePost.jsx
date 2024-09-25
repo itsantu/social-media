@@ -6,14 +6,13 @@ export const useLikePost = () => {
   const { user } = useAuthContext();
   const [likeError, setLikeError] = useState(null);
   const [likeLoading, setLikeLoading] = useState(false);
-  // const [likeResponse, setLikeResponse] = useState(false);
 
   const likePost = async ({ postId }) => {
     setLikeError(null);
     setLikeLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:8000/api/feed/${postId}?username=${user.uname}`,
+        `https://social-media-fxfa.onrender.com/api/feed/${postId}?username=${user.uname}`,
         {},
         {
           headers: {
