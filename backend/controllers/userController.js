@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const Post = require("../models/postModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const validator = require("validator");
 const { deleteImage } = require("../utils/cloudinary");
 const {
   generateOTP,
@@ -62,6 +63,12 @@ const getOTP = async (req, res) => {
       if (user) {
         return res.status(302).json({ error: "Email already in use." });
       }
+      if (!validator.isEmail(email)) {
+        return res.status(404).json({ error: "Email is not valid." });
+      }
+      if (!validator.isStrongPassword(password)) {
+        return res.status(404).json({ error: "Password is not strong enough." });
+      }
     }
 
     if (typeOfRequest == "loginRequest") {
@@ -71,6 +78,7 @@ const getOTP = async (req, res) => {
       }
     }
 
+    
     // Generate OTP
     const otp = generateOTP();
     if (!otp) {

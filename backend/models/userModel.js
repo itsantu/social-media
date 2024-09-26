@@ -24,12 +24,12 @@ userSchema.statics.signup = async function (username, email, password) {
   if (!username || !email || !password) {
     throw Error("All fiels must be filled");
   }
-  if (!validator.isEmail(email)) {
-    throw Error("Email is not valid!");
-  }
-  if (!validator.isStrongPassword(password)) {
-    throw Error("Password is not Strong enough");
-  }
+  // if (!validator.isEmail(email)) {
+  //   throw Error("Email is not valid!");
+  // }
+  // if (!validator.isStrongPassword(password)) {
+  //   throw Error("Password is not Strong enough");
+  // }
 
   const usernameExists = await this.findOne({ username });
   if (usernameExists) {
