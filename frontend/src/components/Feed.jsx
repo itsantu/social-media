@@ -53,6 +53,13 @@ const Feed = ({ post }) => {
     }
   };
 
+  const [liked, setLiked] = useState(false)
+  const handleDoubleClickOnImage = async () => {
+    setLiked(true);
+    await handleLike();
+    setLiked(false);
+  }
+
   return (
     <div className="border-2 border-slate-200 rounded-lg overflow-hidden shadow-xl p-3">
       <div className="flex items-center justify-between">
@@ -63,13 +70,15 @@ const Feed = ({ post }) => {
           </Link>
         )}
       </div>
-      <div className="w-full text-center">
+      <div className="relative w-full text-center">
         <LazyLoadImage
           src={post.imageUrl}
           alt={post.title}
           effect="blur"
           className="w-full max-h-[450px] md:h-80 object-cover rounded-md select-none"
+          onDoubleClick={handleDoubleClickOnImage}
         />
+        {liked && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2-translate-x-1/2 -translate-y-1/2 text-red-600 text-8xl"><FaHeart/></div>}
       </div>
       <div className="p-4">
         <h2 className="text-xl font-bold">{post.title}</h2>
