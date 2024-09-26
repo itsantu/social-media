@@ -7,13 +7,13 @@ const useSendOtp = () => {
   const [loading, setLoading] = useState(false);
   const [otpError, setOtpError] = useState(null);
 
-  const sendOtp = async (email, password, typeOfRequest) => {
+  const sendOtp = async (username, email, password, typeOfRequest) => {
     setLoading(true);
     setOtpError(false); // Reset any previous errors
     try {
       const response = await axios.post(
         "https://social-media-fxfa.onrender.com/api/user/get-otp",
-        { email, password, typeOfRequest },
+        { username, email, password, typeOfRequest },
         { headers: { "Content-Type": "application/json" } }
       );
   

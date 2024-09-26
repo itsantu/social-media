@@ -49,7 +49,7 @@ const createToken = (_id) => {
 // };
 
 const getOTP = async (req, res) => {
-  const { email,password, typeOfRequest } = req.body;
+  const { username, email,password, typeOfRequest } = req.body;
 
   // Basic validation
   if (!email) {
@@ -60,8 +60,12 @@ const getOTP = async (req, res) => {
     // If it's a sign-up request, check if the user already exists
     if (typeOfRequest == "signUpRequest") {
       const user = await User.findOne({ email });
+      const usernameExists = await User.findOne({ username });
       if (user) {
         return res.status(302).json({ error: "Email already in use." });
+      }
+      if (usernameExists) {
+        return res.status(302).json({ error: "Username already in use." });
       }
       if (!validator.isEmail(email)) {
         return res.status(404).json({ error: "Email is not valid." });
