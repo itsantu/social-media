@@ -49,7 +49,7 @@ const createToken = (_id) => {
 // };
 
 const getOTP = async (req, res) => {
-  const { username, email,password, typeOfRequest } = req.body;
+  const { email, typeOfRequest } = req.body;
 
   // Basic validation
   if (!email) {
@@ -59,6 +59,8 @@ const getOTP = async (req, res) => {
   try {
     // If it's a sign-up request, check if the user already exists
     if (typeOfRequest == "signUpRequest") {
+      const { requiredFile } = req.body;
+      const { username, password } = requiredFile;
       const user = await User.findOne({ email });
       const usernameExists = await User.findOne({ username });
       if (user) {
@@ -71,7 +73,9 @@ const getOTP = async (req, res) => {
         return res.status(404).json({ error: "Email is not valid." });
       }
       if (!validator.isStrongPassword(password)) {
-        return res.status(404).json({ error: "Password is not strong enough." });
+        return res
+          .status(404)
+          .json({ error: "Password is not strong enough." });
       }
     }
 
@@ -82,7 +86,6 @@ const getOTP = async (req, res) => {
       }
     }
 
-    
     // Generate OTP
     const otp = generateOTP();
     if (!otp) {
@@ -165,8 +168,6 @@ const signupUser = async (req, res) => {
   }
 };
 
-
-
 //Change password of the User
 const changePassword = async (req, res) => {
   const { email, currentPassword, newPassword } = req.body;
@@ -226,17 +227,17 @@ const verifyOtp = async (req, res) => {
   const { email, OTP } = req.body;
 
   if (!email || !OTP) {
-    return res.status(400).status({ error: "All fields are required "})
+    return res.status(400).status({ error: "All fields are required " });
   }
 
-  const isValidOtp = verifyOTP(email, OTP);  // Check OTP validity
+  const isValidOtp = verifyOTP(email, OTP); // Check OTP validity
 
   if (isValidOtp) {
     return res.status(200).json({ verified: true });
   } else {
     return res.status(400).json({ error: "Invalid OTP", verified: false });
   }
-}
+};
 
 const forgotPassword = async (req, res) => {
   const { email, newPassword } = req.body;
@@ -264,5 +265,5 @@ module.exports = {
   deleteUser,
   getOTP,
   forgotPassword,
-  verifyOtp
+  verifyOtp,
 };

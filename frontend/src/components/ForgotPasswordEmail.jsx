@@ -15,7 +15,7 @@ const ForgotPasswordEmail = () => {
     e.preventDefault();
 
     console.log(email);
-    await sendOtp(email, "loginRequest");
+    await sendOtp(email, "loginRequest", {});
   };
 
   const verifyOtp = async (e) => {
