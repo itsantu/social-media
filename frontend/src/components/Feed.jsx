@@ -74,12 +74,12 @@ const Feed = ({ post }) => {
         <p className="mt-2">{post.description}</p>
       </div>
       <div className="flex items-center justify-between">
-        <div className="flex gap-1 items-center text-md mr-3 rounded-md cursor-pointer">
-          <button onClick={handleLike} disabled={likeLoading}>
-            {!likeLoading && !hasLiked && <FaRegHeart className="text-xl" />}
-            {likeLoading && <FaRegHeart className="text-xl text-gray-400" />}
+        <div className="flex gap-1 items-center text-lg mr-3 rounded-md cursor-pointer">
+          <button onClick={handleLike} disabled={likeLoading} className="ml-3 mr-1">
+            {!likeLoading && !hasLiked && <FaRegHeart className="text-2xl" />}
+            {likeLoading && <FaRegHeart className="text-2xl text-gray-400" />}
             {!likeLoading && hasLiked && (
-              <FaHeart className="text-xl text-red-500" />
+              <FaHeart className="text-2xl text-red-500" />
             )}
           </button>{" "}
           {likesCount}

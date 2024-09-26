@@ -49,7 +49,7 @@ const createToken = (_id) => {
 // };
 
 const getOTP = async (req, res) => {
-  const { email, typeOfRequest } = req.body;
+  const { email,password, typeOfRequest } = req.body;
 
   // Basic validation
   if (!email) {
