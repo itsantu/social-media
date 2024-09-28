@@ -28,7 +28,7 @@ const DeleteUser = () => {
       <h2 className={`text-xl md:text-3xl font-semibold mb-6 ${mode == 'dark' && "text-gray-300"}`}>Delete Account</h2>
       <form
         onSubmit={handleSubmit}
-        className={`px-4 py-8 bg-slate-200 rounded-lg ${mode == 'dark' && "bg-gray-900"}`}
+        className={`px-4 py-8 rounded-lg ${mode == 'dark' ? "bg-gray-900" : "bg-slate-200"}`}
       >
         <div className={`w-full flex justify-center mb-5 rounded-md ${mode == 'dark' && "bg-gray-800"}`}>
           <img

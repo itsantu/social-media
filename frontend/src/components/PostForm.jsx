@@ -65,7 +65,7 @@ const PostForm = () => {
       <h2 className={`text-3xl font-semibold my-5 ${mode == 'dark' && "text-gray-200"}`}>Upload Post</h2>
       <form onSubmit={handleSubmit} encType='multipart/form-data'>
         <div className="mb-4">
-          <label className={`block text-gray-700 ${mode == 'dark' && "text-white"}`}>Title</label>
+          <label className={`block ${mode == 'dark' ? "text-white" : "text-gray-700"}`}>Title</label>
           <input
             type="text"
             value={title}
@@ -75,7 +75,7 @@ const PostForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label className={`block text-gray-700 ${mode == 'dark' && "text-white"}`}>Description</label>
+          <label className={`block ${mode == 'dark' ? "text-white" : "text-gray-700"}`}>Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -85,7 +85,7 @@ const PostForm = () => {
           ></textarea>
         </div>
         <div className="mb-4">
-          <label className={`block text-gray-700 ${mode == 'dark' && "text-white"}`}>Image</label>
+          <label className={`block ${mode == 'dark' ? "text-white" : "text-gray-700"}`}>Image</label>
           <input
             type="file"
             onChange={handleImageChange}

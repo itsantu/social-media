@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext} from '../../hooks/useAuthContext'
 import { usePostListContext} from '../../hooks/usePostListContext'
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 const EditForm = () => {
-  const {user} = useAuthContext()
+  const {user} = useAuthContext();
+  const { mode } = useThemeContext();
   const {dispatch} = usePostListContext()
   const location = useLocation();
   const navigate = useNavigate();
@@ -41,7 +43,7 @@ const EditForm = () => {
 
   return (
     <div className="container mx-auto p-4 max-w-[600px] m-6">
-      <h2 className="text-3xl font-semibold mb-5">Edit Post</h2>
+      <h2 className={`text-xl md:text-3xl font-semibold mb-6 ${mode == 'dark' && "text-gray-400"}`}>Edit Post</h2>
       <img
         src={post.imageUrl}
         alt={post.title}
@@ -49,30 +51,30 @@ const EditForm = () => {
       />
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-gray-700">Title</label>
+          <label className={`block mb-2 ${mode == 'dark' ? "text-white" : "text-gray-700"}`}>Title</label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
+            className={`w-full p-2 border border-gray-300 rounded ${mode == 'dark' && "bg-gray-700 text-gray-200"}`}
             required
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700">Description</label>
+          <label className={`block mb-2 ${mode == 'dark' ? "text-white" : "text-gray-700"}`}>Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
+            className={`w-full p-2 border border-gray-300 rounded ${mode == 'dark' && "bg-gray-700 text-gray-200"}`}
             required
           ></textarea>
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded"
+          className={`${!fetching ? "bg-blue-500 text-white" : "bg-blue-800 text-gray-300"} p-2 rounded`}
           disabled={fetching}
         >
-          Update
+          {!fetching ? "Update" : "Updating your post..."}
         </button>
         {error && <div className="mt-4 text-red-500">{error}</div>}
       </form>

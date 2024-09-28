@@ -11,7 +11,7 @@ import { useThemeContext } from "../../hooks/useThemeContext";
 
 const Feed = ({ post }) => {
   const { user } = useAuthContext();
-  const { mode } = useThemeContext()
+  const { mode } = useThemeContext();
   const { dispatch } = usePostListContext();
   const [isDeleting, setIsDeleting] = useState(null);
   const [hasLiked, setHasLiked] = useState(post.likedBy[user.uname]);
@@ -19,10 +19,13 @@ const Feed = ({ post }) => {
     Object.keys(post.likedBy).length
   );
 
-  const [lineTruncate, setLineTruncate] = useState(post.description.length > 42)
+  const [lineTruncate, setLineTruncate] = useState(
+    post.description.length > 42
+  );
   const { likePost, likeError, likeLoading } = useLikePost();
 
-  const handleClick = async () => {
+  const [deleteConfirmDialogue, setDeleteConfirmDialogue] = useState(false);
+  const handleDelete = async () => {
     setIsDeleting(true);
     const response = await fetch(
       "https://social-media-fxfa.onrender.com/api/feed/" + post._id,
@@ -42,6 +45,11 @@ const Feed = ({ post }) => {
     }
   };
 
+  const handleClick = async () => {
+    setDeleteConfirmDialogue(false);
+    await handleDelete();
+  };
+
   const handleLike = async () => {
     try {
       const result = await likePost({ postId: post._id, token: user.token });
@@ -55,60 +63,87 @@ const Feed = ({ post }) => {
     }
   };
 
-  const [liked, setLiked] = useState(false)
+  const [liked, setLiked] = useState(false);
   const handleDoubleClickOnImage = async () => {
     setLiked(true);
     await handleLike();
     setLiked(false);
-  }
+  };
 
   return (
-    <div className="border-1 border-slate-200 rounded-lg overflow-hidden shadow-2xl p-3">
-      <div className="flex items-center justify-between">
-        <p className={` my-2 ${mode == 'dark' ? "text-gray-100" : "text-gray-700"}`}>@{post.createdBy.username}</p>
-        {user.uname === post.createdBy.username && (
-          <Link to="/update" state={post}>
-            <FaRegEdit className="text-xl cursor-pointer" />
-          </Link>
-        )}
-      </div>
-      <div className="relative w-full text-center">
-        <LazyLoadImage
-          src={post.imageUrl}
-          alt={post.title}
-          effect="blur"
-          className="w-full max-h-[450px] md:h-80 object-cover rounded-md select-none"
-          onDoubleClick={handleDoubleClickOnImage}
-        />
-        {liked && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2-translate-x-1/2 -translate-y-1/2 text-red-600 text-8xl"><FaHeart/></div>}
-      </div>
-      <div className="p-4">
-        <h2 className="text-xl font-bold">{post.title}</h2>
-        <p onClick={() => setLineTruncate(!lineTruncate)} className={`mt-2 ${lineTruncate && "truncate"}`}>{post.description}</p>
-        {lineTruncate && <span onClick={() => setLineTruncate(!lineTruncate)} className="text-gray-400 hover:underline hover:text-gray-600 cursor-pointer">more</span>}
-        {/* {!lineTruncate && <span onClick={() => setLineTruncate(!lineTruncate)} className="text-gray-400 hover:underline hover:text-gray-600 cursor-pointer">see less</span>} */}
-      </div>
-      <div className="flex items-center justify-between">
-        <div className="flex gap-1 items-center text-lg mr-3 rounded-md cursor-pointer">
-          <button onClick={handleLike} disabled={likeLoading} className="ml-3 mr-1">
-            {!likeLoading && !hasLiked && <FaRegHeart className="text-2xl" />}
-            {likeLoading && <FaRegHeart className="text-2xl text-gray-400" />}
-            {!likeLoading && hasLiked && (
-              <FaHeart className="text-2xl text-red-500" />
-            )}
-          </button>{" "}
-          {likesCount}
-        </div>
-        {user.uname === post.createdBy.username && (
-          <div
-            onClick={handleClick}
-            className="delete-btn flex justify-center items-center cursor-pointer bg-red-500 hover:bg-red-700 duration-150 p-2 rounded-lg text-2xl text-white"
+    <div className="relative">
+      <div className="border-1 border-slate-200 rounded-lg overflow-hidden shadow-2xl p-3">
+        <div className="flex items-center justify-between">
+          <p
+            className={` my-2 ${
+              mode == "dark" ? "text-gray-100" : "text-gray-700"
+            }`}
           >
-            <MdDelete />
+            @{post.createdBy.username}
+          </p>
+          {user.uname === post.createdBy.username && (
+            <Link to="/update" state={post}>
+              <FaRegEdit className="text-xl cursor-pointer" />
+            </Link>
+          )}
+        </div>
+        <div className="relative w-full text-center">
+          <LazyLoadImage
+            src={post.imageUrl}
+            alt={post.title}
+            effect="blur"
+            className="w-full max-h-[450px] md:h-80 object-cover rounded-md select-none"
+            onDoubleClick={handleDoubleClickOnImage}
+          />
+          {liked && (
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2-translate-x-1/2 -translate-y-1/2 text-red-600 text-8xl">
+              <FaHeart />
+            </div>
+          )}
+        </div>
+        <div className="p-4">
+          <h2 className="text-xl font-bold">{post.title}</h2>
+          <p
+            onClick={() => setLineTruncate(!lineTruncate)}
+            className={`mt-2 ${lineTruncate && "truncate"}`}
+          >
+            {post.description}
+          </p>
+          {lineTruncate && (
+            <span
+              onClick={() => setLineTruncate(!lineTruncate)}
+              className="text-gray-400 hover:underline hover:text-gray-600 cursor-pointer"
+            >
+              more
+            </span>
+          )}
+          {/* {!lineTruncate && <span onClick={() => setLineTruncate(!lineTruncate)} className="text-gray-400 hover:underline hover:text-gray-600 cursor-pointer">see less</span>} */}
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex gap-1 items-center text-lg mr-3 rounded-md cursor-pointer">
+            <button
+              onClick={handleLike}
+              disabled={likeLoading}
+              className="ml-3 mr-1"
+            >
+              {!likeLoading && !hasLiked && <FaRegHeart className="text-2xl" />}
+              {likeLoading && <FaRegHeart className="text-2xl text-gray-400" />}
+              {!likeLoading && hasLiked && (
+                <FaHeart className="text-2xl text-red-500" />
+              )}
+            </button>{" "}
+            {likesCount}
           </div>
-        )}
-      </div>
-      {/* {user.uname === post.createdBy.username && (
+          {user.uname === post.createdBy.username && (
+            <div
+              onClick={() => setDeleteConfirmDialogue(true)}
+              className="delete-btn flex justify-center items-center cursor-pointer bg-red-500 hover:bg-red-700 duration-150 p-2 rounded-lg text-2xl text-white"
+            >
+              <MdDelete />
+            </div>
+          )}
+        </div>
+        {/* {user.uname === post.createdBy.username && (
         <div
           onClick={handleClick}
           className="delete-btn flex justify-center items-center cursor-pointer bg-red-500 hover:bg-red-700 duration-150 p-2 rounded-lg text-2xl text-white"
@@ -116,7 +151,37 @@ const Feed = ({ post }) => {
           <MdDelete />
         </div>
       )} */}
-      {isDeleting && <div className="mt-4 text-red-500">Deleting post...</div>}
+        {isDeleting && (
+          <div className="mt-4 text-red-500">Deleting post...</div>
+        )}
+      </div>
+
+      {/* Delete confirmation dialogue box */}
+      {deleteConfirmDialogue && (
+        <div
+          className={`absolute w-2/3 md:w-1/2 p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/3 rounded-xl z-10 shadow-2xl shadow-slate-600 ${
+            mode == "dark" ? "bg-gray-700" : "bg-gray-200"
+          }`}
+        >
+          <p className="mb-5">Are you sure?</p>
+          <div className="flex items-center justify-between">
+            <button
+              className="px-3 py-1 bg-red-600 rounded-md hover:bg-red-700"
+              onClick={handleClick}
+            >
+              Yes
+            </button>
+            <button
+              className="px-3 py-1 bg-gray-600 rounded-md hover:bg-gray-700"
+              onClick={() => {
+                setDeleteConfirmDialogue(false);
+              }}
+            >
+              No
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

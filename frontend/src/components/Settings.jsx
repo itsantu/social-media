@@ -25,7 +25,7 @@ function Settings({ setOpenSettings }) {
   };
 
   return (
-    <div className={`absolute w-2/3 md:w-1/2 p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/3 rounded-2xl z-10 bg-gray-200 shadow-2xl shadow-slate-600 ${mode == "dark" && "bg-gray-800"}`}>
+    <div className={`absolute w-2/3 md:w-1/2 p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/3 rounded-2xl z-10 shadow-2xl shadow-slate-600 ${mode == "dark" ? "bg-gray-800" : "bg-gray-200"}`}>
       <div className={`flex items-center justify-between mb-8 ${mode == "dark" && "text-gray-200"}`}>
         <h2 className="text-xl md:text-2xl font-semibold">Settings</h2>
         <button

@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import useSendOtp from "../../hooks/useSendOtp.js";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useThemeContext } from "../../hooks/useThemeContext.js";
 
 const ForgotPasswordEmail = () => {
+  const { mode } = useThemeContext();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -42,19 +44,19 @@ const ForgotPasswordEmail = () => {
 
   return (
     <div className="container mx-auto w-[90%] p-4 max-w-[600px] m-6">
-      <h2 className="text-3xl font-semibold mb-10">Log In</h2>
+      <h2 className={`text-xl md:text-3xl font-semibold mb-6 ${mode == 'dark' && "text-gray-300"}`}>Log In</h2>
       {!otpSent ? (
         <form
           onSubmit={handleSubmit}
-          className="px-4 py-8 bg-slate-200 rounded-lg"
+          className={`px-4 py-8 rounded-lg ${mode == 'dark' ? "bg-gray-900" : "bg-slate-200"}`}
         >
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">Enter your Email</label>
+            <label className={`block  mb-2 ${mode == 'dark' && 'text-gray-100'}`}>Enter your Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className={`w-full p-2 border border-gray-300 rounded ${mode == 'dark' && "bg-gray-700 text-gray-200"}`}
               required
             />
           </div>
@@ -72,10 +74,10 @@ const ForgotPasswordEmail = () => {
       ) : (
         <form
           onSubmit={verifyOtp}
-          className="px-4 py-8 bg-slate-200 rounded-lg"
+          className={`px-4 py-8 rounded-lg ${mode == 'dark' ? "bg-gray-900" : "bg-slate-200"}`}
         >
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2">
+            <label className={`block mb-2 ${mode == 'dark' ? "text-white" : "text-gray-700"}`}>
               We have sent an OTP to your email. Please fill it below
             </label>
             <input
@@ -85,7 +87,7 @@ const ForgotPasswordEmail = () => {
               onChange={(e) => setOTP(e.target.value)}
               minLength={6}
               maxLength={6}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className={`w-full p-2 border border-gray-300 rounded ${mode == 'dark' && "bg-gray-700 text-gray-200"}`}
               required
             />
           </div>
