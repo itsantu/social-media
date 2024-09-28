@@ -36,14 +36,14 @@ const Login = () => {
       </h2>
       <form
         onSubmit={handleSubmit}
-        className={`px-4 py-8 bg-slate-200 rounded-lg ${
-          mode == "dark" && "bg-gray-900"
+        className={`px-4 py-8 rounded-lg ${
+          mode == "dark" ? "bg-gray-900" : "bg-slate-200"
         }`}
       >
         <div className="mb-4">
           <label
-            className={`block text-gray-700 mb-2 ${
-              mode == "dark" && "text-white"
+            className={`block  mb-2 ${
+              mode == "dark" ? "text-white" : "text-gray-700"
             }`}
           >
             Email
@@ -60,8 +60,8 @@ const Login = () => {
         </div>
         <div className="mb-4">
           <label
-            className={`block text-gray-700 mb-2 ${
-              mode == "dark" && "text-white"
+            className={`block mb-2 ${
+              mode == "dark" ? "text-white" : "text-gray-700"
             }`}
           >
             Password
