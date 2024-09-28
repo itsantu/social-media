@@ -7,9 +7,11 @@ import { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { useLikePost } from "../../hooks/useLikePost";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 const Feed = ({ post }) => {
   const { user } = useAuthContext();
+  const { mode } = useThemeContext()
   const { dispatch } = usePostListContext();
   const [isDeleting, setIsDeleting] = useState(null);
   const [hasLiked, setHasLiked] = useState(post.likedBy[user.uname]);
@@ -61,9 +63,9 @@ const Feed = ({ post }) => {
   }
 
   return (
-    <div className="border-2 border-slate-200 rounded-lg overflow-hidden shadow-xl p-3">
+    <div className="border-1 border-slate-200 rounded-lg overflow-hidden shadow-2xl p-3">
       <div className="flex items-center justify-between">
-        <p className="text-gray-700 my-2">@{post.createdBy.username}</p>
+        <p className={` my-2 ${mode == 'dark' ? "text-gray-100" : "text-gray-700"}`}>@{post.createdBy.username}</p>
         {user.uname === post.createdBy.username && (
           <Link to="/update" state={post}>
             <FaRegEdit className="text-xl cursor-pointer" />

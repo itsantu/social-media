@@ -13,9 +13,25 @@ import ChangePassword from "./components/ChangePassword";
 import DeleteUser from "./components/DeleteUser";
 import ForgotPasswordEmail from "./components/ForgotPasswordEmail";
 import ForgotPWPage from "./components/ForgotPWPage";
+import { useEffect } from "react";
+import { useThemeContext } from "../hooks/useThemeContext";
 
 function App() {
   const { user } = useAuthContext();
+  const { mode } = useThemeContext(); // Assuming your context provides 'mode'
+  
+  useEffect(() => {
+    if (mode === 'dark') {
+      document.body.style.backgroundColor = '#1a202c'; // Dark background
+    } else {
+      document.body.style.backgroundColor = '#f7fafc'; // Light background
+    }
+
+    // Optional cleanup to avoid issues when component unmounts
+    return () => {
+      document.body.style.backgroundColor = '';
+    };
+  }, [mode]); // Re-run when mode changes
 
   return (
     <>

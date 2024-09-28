@@ -1,24 +1,30 @@
 import React, { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { IoEye , IoEyeOffSharp } from "react-icons/io5";
+import { IoEye, IoEyeOffSharp } from "react-icons/io5";
 import { useChangePassword } from "../../hooks/useChangePassword";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 const ChangePassword = () => {
   const { user } = useAuthContext();
+  const { mode } = useThemeContext()
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword1, setShowPassword1] = useState(false)
-  const [showPassword2, setShowPassword2] = useState(false)
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const { changePassword, isloading, error, success } = useChangePassword();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await changePassword( user.email, currentPassword, newPassword, confirmPassword);
+    await changePassword(
+      user.email,
+      currentPassword,
+      newPassword,
+      confirmPassword
+    );
   };
 
-  
   const handleShowPassword1 = () => {
     setShowPassword1(!showPassword1);
   };
@@ -27,57 +33,64 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 w-[85%] max-w-[600px] m-4">
-      <h2 className="text-xl md:text-3xl font-semibold mb-10">Change Password</h2>
-      <form onSubmit={handleSubmit} className="px-4 py-8 bg-slate-200 rounded-lg">
+    <div className={`container mx-auto p-4 w-[85%] max-w-[600px] m-4 ${mode == 'dark' && "bg-gray-800"}`}>
+      <h2 className={`text-xl md:text-3xl font-semibold mb-6 ${mode == 'dark' && "text-gray-400"}`}>
+        Change Password
+      </h2>
+      <form
+        onSubmit={handleSubmit}
+        className={`px-4 py-8 bg-slate-200 rounded-lg ${mode == 'dark' && "bg-gray-900"}`}
+      >
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Current Password</label>
+          <label className={`block text-gray-700 mb-2 ${mode == 'dark' && "text-white"}`}>Current Password</label>
           <input
             type="text"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className={`w-full p-2 border border-gray-300 rounded ${mode == 'dark' && "bg-gray-700 text-gray-200"}`}
             required
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">New Password</label>
-          <div className="flex items-center ">
+          <label className={`block text-gray-700 mb-2 ${mode == 'dark' && "text-white"}`}>New Password</label>
+          <div className="flex items-center space-x-2">
             <input
               type={showPassword1 ? "text" : "password"}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="p-2 border flex-grow border-gray-300 rounded-md"
+              className={`w-full p-2 border border-gray-300 rounded ${mode == 'dark' && "bg-gray-700 text-gray-200"}`}
               required
-            ></input>
-            <span onClick={handleShowPassword1} className="p-2 text-xl">
+            />
+            <span onClick={handleShowPassword1} className={`p-2 text-xl cursor-pointer ${mode == "dark" && "text-gray-200"}`}>
               {showPassword1 ? <IoEye /> : <IoEyeOffSharp />}
             </span>
           </div>
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Confirm Password</label>
-          <div className="flex items-center ">
+          <label className={`block text-gray-700 mb-2 ${mode == 'dark' && "text-white"}`}>Confirm Password</label>
+          <div className="flex items-center space-x-2">
             <input
               type={showPassword2 ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="p-2 border flex-grow border-gray-300 rounded-md"
+              className={`w-full p-2 border border-gray-300 rounded ${mode == 'dark' && "bg-gray-700 text-gray-200"}`}
               required
-            ></input>
-            <span onClick={handleShowPassword2} className="p-2 text-xl">
+            />
+            <span onClick={handleShowPassword2} className={`p-2 text-xl cursor-pointer ${mode == "dark" && "text-gray-200"}`}>
               {showPassword2 ? <IoEye /> : <IoEyeOffSharp />}
             </span>
           </div>
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded-lg w-full mt-5 select-none"
+          className={`${!isloading ? "bg-blue-500 text-white hover:bg-blue-700" : "bg-blue-800 text-gray-300"} p-2 rounded-lg w-full mt-5 select-none`}
           disabled={isloading}
         >
-          Change Password
+          {!isloading ? "Change Password" : "Please wait..."}
         </button>
-        {isloading && <div className="mt-4 text-slate-500" >Waiting for response...</div>}
+        {isloading && (
+          <div className="mt-4 text-slate-400">Don't go Back or close the page</div>
+        )}
         {error && <div className="mt-4 text-red-500">{error}</div>}
         {success && <div className="mt-4 text-green-600">{success}</div>}
       </form>

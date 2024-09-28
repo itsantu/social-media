@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { FaUserCircle } from "react-icons/fa";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 const Navbar = () => {
   const { user } = useAuthContext();
+  const { mode } = useThemeContext();
 
   return (
-    <header className="sticky top-0 bg-white shadow-md z-10">
+    <header className={`sticky top-0 bg-white shadow-md z-10 ${mode == 'dark' && "bg-slate-800"}`}>
       <div className="container">
         <Link to="/">
-          <h1 className="font-bold text-3xl  md:text-4xl text-slate-800">
+          <h1 className={`font-bold text-3xl  md:text-4xl text-slate-800 ${mode == 'dark' && "text-white"}`}>
             Hello World
           </h1>
         </Link>
@@ -18,12 +20,12 @@ const Navbar = () => {
             <div className="flex items-center py-2 gap-2">
               <Link
                 to="/upload"
-                className="bg-green-400 py-2 px-3 rounded-md hover:bg-green-500 hover:text-white duration-200 text-md md:text-lg md:ml-4"
+                className="bg-green-500 py-2 px-3 rounded-md hover:bg-green-700 hover:text-white duration-200 text-md md:text-lg md:ml-4"
               >
                 Add Post
               </Link>
               <Link to="/about">
-                <FaUserCircle className="text-4xl ml-1 mr-1 text-cyan-950" />
+                <FaUserCircle className={`text-4xl ml-1 mr-1 text-cyan-950 ${mode == 'dark' && "text-slate-100"}`} />
               </Link>
             </div>
           ) : (
@@ -36,7 +38,7 @@ const Navbar = () => {
               </Link>
               <Link
                 to="/signup"
-                className="border-cyan-700 border-2 py-2 px-3 text-sm md:py-3  md:px-5 rounded-md hover:bg-cyan-700 hover:text-white duration-200"
+                className={`border-cyan-700 border-2 py-2 px-3 text-sm md:py-3  md:px-5 rounded-md hover:bg-cyan-700 hover:text-white duration-200 ${mode == 'dark' && "text-gray-100"}`}
               >
                 SignUp
               </Link>

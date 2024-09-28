@@ -3,8 +3,10 @@ import { useSignup } from "../../hooks/useSignup";
 import useSendOtp from "../../hooks/useSendOtp";
 import { IoEye, IoEyeOffSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 const Signup = () => {
+  const { mode } = useThemeContext();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,46 +31,87 @@ const Signup = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 w-[90%] max-w-[600px] m-6">
-      <h2 className="text-3xl font-semibold mb-10">Sign Up</h2>
+    <div
+      className={`container mx-auto p-4 w-[90%] max-w-[600px] rounded-xl m-6 ${
+        mode == "dark" && "bg-gray-800"
+      }`}
+    >
+      <h2
+        className={`text-3xl font-semibold mb-10 ${
+          mode == "dark" && "text-gray-400"
+        }`}
+      >
+        Sign Up
+      </h2>
       {!otpSent ? (
         <form
           onSubmit={handleOtpRequest}
-          className="px-4 py-8 bg-slate-200 rounded-lg"
+          className={`px-4 py-8 bg-slate-200 rounded-lg ${
+            mode == "dark" && "bg-gray-900"
+          }`}
         >
           <div className="mb-4">
-            <label className="block text-gray-700 mb-3">Username</label>
+            <label
+              className={`block text-gray-700 mb-2 ${
+                mode == "dark" && "text-white"
+              }`}
+            >
+              Username
+            </label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="john"
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className={`w-full p-2 border border-gray-300 rounded ${
+                mode == "dark" && "bg-gray-700 text-gray-200"
+              }`}
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-3">Email</label>
+            <label
+              className={`block text-gray-700 mb-2 ${
+                mode == "dark" && "text-white"
+              }`}
+            >
+              Email
+            </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="example@gmail.com"
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className={`w-full p-2 border border-gray-300 rounded ${
+                mode == "dark" && "bg-gray-700 text-gray-200"
+              }`}
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-3">Password</label>
+            <label
+              className={`block text-gray-700 mb-2 ${
+                mode == "dark" && "text-white"
+              }`}
+            >
+              Password
+            </label>
             <div className="flex items-center ">
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="p-2 border flex-grow border-gray-300 rounded-md"
+                className={`w-full p-2 border border-gray-300 rounded ${
+                  mode == "dark" && "bg-gray-700 text-gray-200"
+                }`}
                 required
               ></input>
-              <span onClick={handleShowPassword} className="p-2 text-xl">
+              <span
+                onClick={handleShowPassword}
+                className={`p-2 text-xl cursor-pointer ${
+                  mode == "dark" && "text-gray-200"
+                }`}
+              >
                 {showPassword ? <IoEye /> : <IoEyeOffSharp />}
               </span>
             </div>
@@ -76,15 +119,17 @@ const Signup = () => {
           <button
             type="submit"
             className={` ${
-              !loading ? "bg-blue-500 text-white" : "bg-blue-300 text-gray-400"
+              !loading ? "bg-blue-600 text-white" : "bg-blue-800 text-gray-400"
             }  py-2 px-4 rounded-lg mt-5 w-full select-none`}
             disabled={loading}
           >
             {!loading ? "Sign Up" : "Sending OTP"}
           </button>
           <div className="mt-4 text-sm select-none">
-            <span>Already a user?</span>
-            <Link to="/login" className="text-blue-700 ml-2 hover:underline">
+            <span className={`${mode == "dark" && "text-gray-100"}`}>
+              Already a user?
+            </span>
+            <Link to="/login" className="text-blue-600 ml-2 hover:underline">
               Login
             </Link>
           </div>
@@ -93,7 +138,9 @@ const Signup = () => {
       ) : (
         <form
           onSubmit={handleVerifyOtpSubmit}
-          className="px-4 py-8 bg-slate-200 rounded-lg"
+          className={`px-4 py-8 bg-slate-200 rounded-lg ${
+            mode == "dark" && "bg-gray-900"
+          }`}
         >
           <div className="mb-4">
             <label className="block text-sm text-gray-500 mb-3">
@@ -106,7 +153,9 @@ const Signup = () => {
               minLength={6}
               maxLength={6}
               onChange={(e) => setOTP(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className={`w-full p-2 border border-gray-300 rounded ${
+                mode == "dark" && "bg-gray-700 text-gray-200"
+              }`}
               required
             />
           </div>

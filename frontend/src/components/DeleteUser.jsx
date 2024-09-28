@@ -2,12 +2,15 @@ import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useDeleteUser } from "../../hooks/useDeleteUser";
 import { IoEye, IoEyeOffSharp } from "react-icons/io5";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 const DeleteUser = () => {
   const { user } = useAuthContext();
+  const { mode } = useThemeContext();
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
     const { deleteUser, isloading, error } = useDeleteUser();
+    console.log(mode)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,13 +24,13 @@ const DeleteUser = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-[600px] m-6">
-      <h2 className="text-3xl font-semibold mb-5">Delete Account</h2>
+    <div className={`container mx-auto p-4 w-[85%] max-w-[600px] m-4 `}>
+      <h2 className={`text-xl md:text-3xl font-semibold mb-6 ${mode == 'dark' && "text-gray-300"}`}>Delete Account</h2>
       <form
         onSubmit={handleSubmit}
-        className="px-4 py-8 bg-slate-200 rounded-lg"
+        className={`px-4 py-8 bg-slate-200 rounded-lg ${mode == 'dark' && "bg-gray-900"}`}
       >
-        <div className="w-full flex justify-center mb-5 rounded-md">
+        <div className={`w-full flex justify-center mb-5 rounded-md ${mode == 'dark' && "bg-gray-800"}`}>
           <img
             className="w-[300px]  rounded-md"
             src="https://dslntlv9vhjr4.cloudfront.net/posts_images/U0SO0ZpXLDzkW.jpg"
@@ -35,16 +38,16 @@ const DeleteUser = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Enter Password</label>
+          <label className={`block  mb-2 ${mode == 'dark' && 'text-gray-100'}`}>Enter Password</label>
           <div className="flex items-center ">
             <input
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="p-2 border flex-grow border-gray-300 rounded-md"
+              className={`w-full p-2 border border-gray-300 rounded ${mode == 'dark' && "bg-gray-700 text-gray-200"}`}
               required
             ></input>
-            <span onClick={handleShowPassword} className="p-2 text-xl">
+            <span onClick={handleShowPassword} className={`p-2 text-xl cursor-pointer ${mode == "dark" && "text-gray-200"}`}>
               {showPassword ? <IoEye /> : <IoEyeOffSharp />}
             </span>
           </div>
