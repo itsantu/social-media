@@ -14,7 +14,7 @@ const Feed = ({ post }) => {
   const { mode } = useThemeContext();
   const { dispatch } = usePostListContext();
   const [isDeleting, setIsDeleting] = useState(null);
-  const [hasLiked, setHasLiked] = useState(post.likedBy[user.uname]);
+  const [hasLiked, setHasLiked] = useState(post.likedBy[user.uname.trim()]);
   const [likesCount, setLikesCount] = useState(
     Object.keys(post.likedBy).length
   );
@@ -57,6 +57,17 @@ const Feed = ({ post }) => {
         const { likeResponse, likeCount } = result;
         setHasLiked(likeResponse);
         setLikesCount(likeCount);
+        if (hasLiked) {
+          dispatch({
+            type: "REMOVE_LIKE",
+            payload: { _id: post._id, username: user.uname },
+          });
+        } else {
+          dispatch({
+            type: "ADD_LIKE",
+            payload: { _id: post._id, username: user.uname },
+          });
+        }
       }
     } catch (error) {
       return;
@@ -65,9 +76,16 @@ const Feed = ({ post }) => {
 
   const [liked, setLiked] = useState(false);
   const handleDoubleClickOnImage = async () => {
-    setLiked(true);
-    await handleLike();
-    setLiked(false);
+    if (!hasLiked) {
+      setLiked(true);
+      await handleLike();
+      setLiked(false);
+    } else {
+      setLiked(true);
+      setTimeout(() => {
+        setLiked(false);
+      }, 1500);
+    }
   };
 
   return (
@@ -92,8 +110,9 @@ const Feed = ({ post }) => {
             src={post.imageUrl}
             alt={post.title}
             effect="blur"
-            className="w-full max-h-[450px] md:h-80 object-cover rounded-md select-none"
+            className="w-full max-h-[450px] md:h-80 object-cover rounded-md select-none cursor-pointer"
             onDoubleClick={handleDoubleClickOnImage}
+            aria-label="Double tap to Like"
           />
           {liked && (
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2-translate-x-1/2 -translate-y-1/2 text-red-600 text-8xl">

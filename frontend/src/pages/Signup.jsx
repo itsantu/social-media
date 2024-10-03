@@ -116,11 +116,12 @@ const Signup = () => {
               </span>
             </div>
           </div>
+          <div className="mt-4 text-gray-500 text-sm">We'll send an OTP to the email</div>
           <button
             type="submit"
             className={` ${
               !loading ? "bg-blue-600 text-white" : "bg-blue-800 text-gray-400"
-            }  py-2 px-4 rounded-lg mt-5 w-full select-none`}
+            }  py-2 px-4 rounded-lg mt-3 w-full select-none`}
             disabled={loading}
           >
             {!loading ? "Sign Up" : "Sending OTP"}

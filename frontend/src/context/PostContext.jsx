@@ -13,50 +13,84 @@ export const PostListReducer = (state, action) => {
       return {
         posts: [action.payload, ...state.posts],
       };
-      case "UPDATE_POST": 
-        return {
-          posts: state.posts.map((post) => {
-            if (post._id === action.payload._id) {
-              return {...post, ...action.payload}
-            }
-            return post
-          })
-        }
+    case "UPDATE_POST":
+      return {
+        posts: state.posts.map((post) => {
+          if (post._id === action.payload._id) {
+            return { ...post, ...action.payload };
+          }
+          return post;
+        }),
+      };
+    case "ADD_LIKE":
+      return {
+        posts: state.posts.map((post) => {
+          if (post._id === action.payload._id) {
+            return {
+              ...post,
+              likedBy: {
+                ...post.likedBy,
+                [action.payload.username.trim()]: true, // dynamically setting the key
+              },
+            };
+          }
+          return post; // important to return the unchanged post
+        }),
+      };
+    case "REMOVE_LIKE":
+      return {
+        posts: state.posts.map((post) => {
+          if (post._id === action.payload._id) {
+            const updatedLikedBy = { ...post.likedBy }; // Copy likedBy object
+            delete updatedLikedBy[action.payload.username.trim()]; // Remove the key-value pair
+
+            return {
+              ...post,
+              likedBy: updatedLikedBy, // Update with the modified object
+            };
+          }
+          return post; // Return unchanged post if ID doesn't match
+        }),
+      };
+
     case "DELETE_POST":
       return {
-        posts: state.posts.filter((post) => post._id !== action.payload._id)
-      }
+        posts: state.posts.filter((post) => post._id !== action.payload._id),
+      };
     default:
       return state;
   }
 };
 
 export const PostListContextProvider = ({ children }) => {
-  const { user } = useAuthContext()
-  const [fetching, setFetching] = useState(false)
+  const { user } = useAuthContext();
+  const [fetching, setFetching] = useState(false);
   const [state, dispatch] = useReducer(PostListReducer, {
     posts: [],
   });
 
   useEffect(() => {
     const fetchAllPosts = async () => {
-      setFetching(true)
+      setFetching(true);
       try {
-        const response = await fetch("https://social-media-fxfa.onrender.com/api/feed", {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
+        const response = await fetch(
+          "https://social-media-fxfa.onrender.com/api/feed",
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
         const json = await response.json();
 
         if (response.ok) {
           dispatch({ type: "SET_POSTS", payload: json });
-          setFetching(false)
+          setFetching(false);
         }
         // console.log(response)
       } catch (err) {
         console.log(err);
-        setFetching(false)
+        setFetching(false);
       }
     };
     if (user) {
@@ -65,7 +99,7 @@ export const PostListContextProvider = ({ children }) => {
   }, [user]);
 
   return (
-    <PostListContext.Provider value={{ ...state,fetching, dispatch }}>
+    <PostListContext.Provider value={{ ...state, fetching, dispatch }}>
       {children}
     </PostListContext.Provider>
   );
