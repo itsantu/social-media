@@ -57,6 +57,31 @@ export const PostListReducer = (state, action) => {
       return {
         posts: state.posts.filter((post) => post._id !== action.payload._id),
       };
+
+    case "INC_COMMENT_COUNT":
+      return {
+        posts: state.posts.map((post) => {
+          if (post._id === action.payload._id) {
+            return {
+              ...post,
+              commentCount: post.commentCount + 1
+            };
+          }
+          return post;
+        }),
+      }
+    case "DEC_COMMENT_COUNT":
+      return {
+        posts: state.posts.map((post) => {
+          if (post._id === action.payload._id) {
+            return {
+              ...post, 
+              commentCount: post.commentCount - action.payload.decrementValue
+            };
+          }
+          return post;
+        })
+      }
     default:
       return state;
   }

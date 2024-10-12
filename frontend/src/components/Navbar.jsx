@@ -8,7 +8,7 @@ const Navbar = () => {
   const { mode } = useThemeContext();
 
   return (
-    <header className={`sticky top-0 shadow-md z-10 ${mode == 'dark' ? "bg-slate-800" : "bg-white"}`}>
+    <header className={`sticky top-0 shadow-md z-20 ${mode == 'dark' ? "bg-slate-800" : "bg-white"}`}>
       <div className="container">
         <Link to="/">
           <h1 className={`font-bold text-3xl  md:text-4xl text-slate-800 ${mode == 'dark' && "text-white"}`}>

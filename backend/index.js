@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const postRouter = require("./routes/postRouter")
+const commentRouter = require("./routes/commentRouter")
 const uploadRouter = require("./routes/uploadRouter")
 const userRouter = require("./routes/userRouter")
 const cors = require("cors")
@@ -14,6 +15,7 @@ app.use(cors())
 app.use(express.json());
 
 app.use("/api/feed", postRouter)
+app.use("/api/feed/comments", commentRouter)
 app.use("/api/upload", uploadRouter)
 app.use("/api/user", userRouter)
 

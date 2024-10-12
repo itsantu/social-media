@@ -15,16 +15,17 @@ import ForgotPasswordEmail from "./components/ForgotPasswordEmail";
 import ForgotPWPage from "./components/ForgotPWPage";
 import { useEffect } from "react";
 import { useThemeContext } from "../hooks/useThemeContext";
+import CommentModal from "./components/CommentModal";
 
 function App() {
   const { user } = useAuthContext();
-  const { mode } = useThemeContext(); // Assuming your context provides 'mode'
+  const { mode } = useThemeContext(); 
   
   useEffect(() => {
     if (mode === 'dark') {
-      document.body.style.backgroundColor = '#1a202c'; // Dark background
+      document.body.style.backgroundColor = '#1a202c'; 
     } else {
-      document.body.style.backgroundColor = '#f7fafc'; // Light background
+      document.body.style.backgroundColor = '#f7fafc'; 
     }
 
     // Optional cleanup to avoid issues when component unmounts

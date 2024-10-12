@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { usePostListContext } from "../../hooks/usePostListContext";
 import Feed from "../components/Feed";
 import EmptyFeed from "../components/EmptyFeed";
 import FetchPost from "../components/FetchPost";
 import { useThemeContext } from "../../hooks/useThemeContext";
+import { useCommentContext } from "../../hooks/useCommentContext";
+import CommentModal from "../components/CommentModal";
 
 const Home = () => {
   const { mode } = useThemeContext();
   const { posts, fetching } = usePostListContext();
+  const { isOpen } = useCommentContext();
+  // const [showLikedBy, setShowLikedBy] = useState(false);
   return (
     <div
-      className={`container mx-auto p-4 md:w-[500px] overflow-x-hidden ${
+      className={`relative container mx-auto p-4 md:w-[500px] overflow-x-hidden ${
         mode == "dark" && " text-white"
       } `}
     >
@@ -25,6 +29,7 @@ const Home = () => {
       ) : (
         <EmptyFeed />
       )}
+      {isOpen && <CommentModal/>}
     </div>
   );
 };

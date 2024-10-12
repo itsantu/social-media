@@ -1,5 +1,5 @@
 import { MdDelete } from "react-icons/md";
-import { FaHeart, FaRegEdit, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegEdit, FaRegHeart, FaRegComment } from "react-icons/fa";
 import { usePostListContext } from "../../hooks/usePostListContext";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -8,6 +8,9 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { useLikePost } from "../../hooks/useLikePost";
 import { useThemeContext } from "../../hooks/useThemeContext";
+import { formatDistanceToNow } from "date-fns";
+import { useCommentContext } from "../../hooks/useCommentContext";
+import LikedByModal from "./LikedByModal";
 
 const Feed = ({ post }) => {
   const { user } = useAuthContext();
@@ -88,6 +91,21 @@ const Feed = ({ post }) => {
     }
   };
 
+  const { dispatch: commentDispatch } = useCommentContext();
+  const handleCommentClick = () => {
+    commentDispatch({ type: "SET_POST", payload:  post  });
+    commentDispatch({ type: "OPEN_COMMENTS" });
+  };
+
+  const [showLikedBy, setShowLikedBy] = useState(false)
+  const handleShowLikedBy = () => {
+    setShowLikedBy(true); // Open the modal
+  };
+
+  const closeLikedByModal = () => {
+    setShowLikedBy(false); // Close the modal
+  };
+
   return (
     <div className="relative">
       <div className="border-1 border-slate-200 rounded-lg overflow-hidden shadow-2xl p-3">
@@ -138,21 +156,37 @@ const Feed = ({ post }) => {
           )}
           {/* {!lineTruncate && <span onClick={() => setLineTruncate(!lineTruncate)} className="text-gray-400 hover:underline hover:text-gray-600 cursor-pointer">see less</span>} */}
         </div>
-        <div className="flex items-center justify-between">
-          <div className="flex gap-1 items-center text-lg mr-3 rounded-md cursor-pointer">
-            <button
-              onClick={handleLike}
-              disabled={likeLoading}
-              className="ml-3 mr-1"
-            >
-              {!likeLoading && !hasLiked && <FaRegHeart className="text-2xl" />}
-              {likeLoading && <FaRegHeart className="text-2xl text-gray-400" />}
-              {!likeLoading && hasLiked && (
-                <FaHeart className="text-2xl text-red-500" />
-              )}
-            </button>{" "}
-            {likesCount}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center">
+            <div className="flex gap-1 items-center text-lg mr-4 rounded-md cursor-pointer">
+              <button
+                onClick={handleLike}
+                disabled={likeLoading}
+                className="ml-3 mr-1"
+              >
+                {!likeLoading && !hasLiked && (
+                  <FaRegHeart className="text-2xl" />
+                )}
+                {likeLoading && (
+                  <FaRegHeart className="text-2xl text-gray-400" />
+                )}
+                {!likeLoading && hasLiked && (
+                  <FaHeart className="text-2xl text-red-500" />
+                )}
+              </button>{" "}
+              <p onClick={handleShowLikedBy}>{likesCount}</p>
+            </div>
+
+            {/* Comment Section */}
+            <div className="flex items-center text-lg cursor-pointer">
+              <FaRegComment
+                className="text-2xl mr-2"
+                onClick={handleCommentClick}
+              />
+              {post.commentCount == undefined ? 0 : post.commentCount}
+            </div>
           </div>
+
           {user.uname === post.createdBy.username && (
             <div
               onClick={() => setDeleteConfirmDialogue(true)}
@@ -162,14 +196,9 @@ const Feed = ({ post }) => {
             </div>
           )}
         </div>
-        {/* {user.uname === post.createdBy.username && (
-        <div
-          onClick={handleClick}
-          className="delete-btn flex justify-center items-center cursor-pointer bg-red-500 hover:bg-red-700 duration-150 p-2 rounded-lg text-2xl text-white"
-        >
-          <MdDelete />
-        </div>
-      )} */}
+        <p className="text-sm text-gray-400 p-3">
+          {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+        </p>
         {isDeleting && (
           <div className="mt-4 text-red-500">Deleting post...</div>
         )}
@@ -201,6 +230,7 @@ const Feed = ({ post }) => {
           </div>
         </div>
       )}
+      {showLikedBy && <LikedByModal post={post} onClose={closeLikedByModal} />}
     </div>
   );
 };
