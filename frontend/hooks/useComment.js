@@ -24,7 +24,7 @@ export const useComment = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/feed/comments/add-comment/${postId}`,
+        `https://social-media-fxfa.onrender.com/api/feed/comments/add-comment/${postId}`,
         {
           username,
           comment,
@@ -56,7 +56,7 @@ export const useComment = () => {
     setCommentError(null);
     try {
       const response = await axios.delete(
-        `http://localhost:8000/api/feed/comments/delete-comment?id=${commentId}&postId=${postId}&decrementValue=${decrementValue}`,
+        `https://social-media-fxfa.onrender.com/api/feed/comments/delete-comment?id=${commentId}&postId=${postId}&decrementValue=${decrementValue}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -90,7 +90,7 @@ export const useComment = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/feed/comments/add-reply/${commentId}`,
+        `https://social-media-fxfa.onrender.com/api/feed/comments/add-reply/${commentId}`,
         {
           username: user.uname,
           comment,
@@ -129,7 +129,7 @@ export const useComment = () => {
 
     try {
       const response = await axios.delete(
-        `http://localhost:8000/api/feed/comments/delete-reply/${commentId}`,
+        `https://social-media-fxfa.onrender.com/api/feed/comments/delete-reply/${commentId}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,

@@ -24,7 +24,7 @@ function CommentModal() {
       setCommentFetching(true);
       try {
         const allComments = await axios.get(
-          `http://localhost:8000/api/feed/comments/${post._id}`,
+          `https://social-media-fxfa.onrender.com/api/feed/comments/${post._id}`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,
