@@ -67,7 +67,7 @@ const deleteComment = async (req, res) => {
 };
 
 const addReply = async (req, res) => {
-  const { id } = req.params;
+  const { id, postId } = req.query;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such comment" });
@@ -91,7 +91,7 @@ const addReply = async (req, res) => {
       { new: true } // Return the updated comment
     );
 
-    await Post.findByIdAndUpdate(id, { $inc: { commentCount: 1 } });
+    await Post.findByIdAndUpdate(postId, { $inc: { commentCount: 1 } });
 
     return res
       .status(200)
@@ -102,7 +102,7 @@ const addReply = async (req, res) => {
 };
 
 const deleteReply = async (req, res) => {
-  const { id } = req.params;
+  const { id, postId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such comment" });
@@ -120,6 +120,8 @@ const deleteReply = async (req, res) => {
     if (!updatedComment) {
       return res.status(404).json({ error: "Reply not found!" });
     }
+
+    await Post.findByIdAndUpdate(postId, { $inc: { commentCount: -1 } });
 
     return res.status(200).json({ success: true, updatedComment });
   } catch (error) {

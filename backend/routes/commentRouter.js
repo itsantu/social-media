@@ -12,8 +12,8 @@ router.post("/add-comment/:id", addComment);    // posts comments based on Post 
 
 router.delete("/delete-comment", deleteComment);    // Deletes comment based on comment id
 
-router.post("/add-reply/:id",addReply)      // adds reply based on comment id
+router.post("/add-reply",addReply)      // adds reply based on comment id
 
-router.delete("/delete-reply/:id",deleteReply)      // deletes reply based on post and comment id
+router.delete("/delete-reply",deleteReply)      // deletes reply based on post and comment id
 
 module.exports = router

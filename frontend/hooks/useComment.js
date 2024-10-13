@@ -90,7 +90,7 @@ export const useComment = () => {
 
     try {
       const response = await axios.post(
-        `https://social-media-fxfa.onrender.com/api/feed/comments/add-reply/${commentId}`,
+        `https://social-media-fxfa.onrender.com/api/feed/comments/add-reply?id=${commentId}&postId=${postId}`,
         {
           username: user.uname,
           comment,
@@ -129,7 +129,7 @@ export const useComment = () => {
 
     try {
       const response = await axios.delete(
-        `https://social-media-fxfa.onrender.com/api/feed/comments/delete-reply/${commentId}`,
+        `https://social-media-fxfa.onrender.com/api/feed/comments/delete-reply?id=${commentId}&postId=${postId}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
