@@ -102,7 +102,7 @@ const addReply = async (req, res) => {
 };
 
 const deleteReply = async (req, res) => {
-  const { id, postId } = req.params;
+  const { id, postId } = req.query;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such comment" });
