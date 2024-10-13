@@ -1,8 +1,8 @@
 import React from "react";
 import { IoLogOutOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { useLogout } from "../../hooks/useLogout";
-import { useThemeContext } from "../../hooks/useThemeContext";
+import { useLogout } from "../../../hooks/useLogout";
+import { useThemeContext } from "../../../hooks/useThemeContext";
 
 function Settings({ setOpenSettings }) {
   const { logout } = useLogout();

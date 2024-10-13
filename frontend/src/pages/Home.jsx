@@ -1,11 +1,11 @@
-import React, { useState } from "react";
 import { usePostListContext } from "../../hooks/usePostListContext";
-import Feed from "../components/Feed";
-import EmptyFeed from "../components/EmptyFeed";
-import FetchPost from "../components/FetchPost";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { useCommentContext } from "../../hooks/useCommentContext";
-import CommentModal from "../components/CommentModal";
+
+import Feed from "../components/Home/Feed";
+import EmptyFeed from "../components/Home/EmptyFeed";
+import FetchPost from "../components/Fetch/FetchPost";
+import CommentModal from "../components/Comment/CommentModal";
 
 const Home = () => {
   const { mode } = useThemeContext();

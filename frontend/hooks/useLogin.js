@@ -10,7 +10,7 @@ export const useLogin = () => {
     setIsloading(true);
     setError(null);
 
-    const response = await fetch("https://social-media-fxfa.onrender.com/api/user/login", {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/user/login`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ email, password }),

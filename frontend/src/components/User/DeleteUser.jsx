@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import { useDeleteUser } from "../../hooks/useDeleteUser";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useDeleteUser } from "../../../hooks/useDeleteUser";
+import { useThemeContext } from "../../../hooks/useThemeContext";
 import { IoEye, IoEyeOffSharp } from "react-icons/io5";
-import { useThemeContext } from "../../hooks/useThemeContext";
 
 const DeleteUser = () => {
   const { user } = useAuthContext();
@@ -14,7 +14,6 @@ const DeleteUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(user.email, password);
     await deleteUser(user.email, password);
   };
 

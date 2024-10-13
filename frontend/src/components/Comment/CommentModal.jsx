@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useThemeContext } from "../../hooks/useThemeContext";
+import { useThemeContext } from "../../../hooks/useThemeContext";
 import { IoMdSend } from "react-icons/io";
 import Comments from "./Comments";
-import { useCommentContext } from "../../hooks/useCommentContext";
+import { useCommentContext } from "../../../hooks/useCommentContext";
 import axios from "axios";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import { useComment } from "../../hooks/useComment";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useComment } from "../../../hooks/useComment";
+import FetchComments from "../Fetch/FetchComments";
 
 function CommentModal() {
   const { mode } = useThemeContext();
@@ -24,7 +25,7 @@ function CommentModal() {
       setCommentFetching(true);
       try {
         const allComments = await axios.get(
-          `https://social-media-fxfa.onrender.com/api/feed/comments/${post._id}`,
+          `${import.meta.env.VITE_BASE_URL}/api/feed/comments/${post._id}`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,
@@ -152,7 +153,7 @@ function CommentModal() {
         {/* Scrollable Comments Section */}
         <div className="my-3 pl-2 pr-2">
           {commentFetching ? (
-            <p>fetching comments...</p>
+            <FetchComments/>
           ) : comments && comments.length > 0 ? (
             comments.map((comment, index) => (
               <Comments key={index} comment={comment} />

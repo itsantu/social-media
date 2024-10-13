@@ -1,11 +1,11 @@
-import { formatDistanceToNowStrict, set } from "date-fns";
 import React, { useState } from "react";
-import { useThemeContext } from "../../hooks/useThemeContext";
-import { useComment } from "../../hooks/useComment";
+import { useThemeContext } from "../../../hooks/useThemeContext";
+import { useComment } from "../../../hooks/useComment";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { IoMdSend } from "react-icons/io";
+import { formatDistanceToNowStrict } from "date-fns";
 import Replies from "./Replies";
-import { useAuthContext } from "../../hooks/useAuthContext";
 
 function Comments({ comment }) {
   const { user } = useAuthContext();
@@ -132,7 +132,7 @@ function Comments({ comment }) {
       {comment.replies?.length > 0 && !showReply ? (
         <div onClick={() => setShowReply(true)}>
           <p className="text-sm text-gray-500 pl-4 cursor-pointer">
-            Show {comment.replies.length > 1 ? "replies" : "reply"}
+            Show {comment.replies.length > 1 ? `${comment.replies.length} replies` : "reply"}
           </p>
         </div>
       ) : (

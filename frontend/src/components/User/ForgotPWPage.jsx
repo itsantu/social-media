@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { IoEye, IoEyeOffSharp } from "react-icons/io5";
-import useForgotPassword from "../../hooks/useForgotPassword";
 import { useLocation } from "react-router-dom";
-import { useThemeContext } from "../../hooks/useThemeContext";
+import useForgotPassword from "../../../hooks/useForgotPassword";
+import { useThemeContext } from "../../../hooks/useThemeContext";
+import { IoEye, IoEyeOffSharp } from "react-icons/io5";
 
 const ForgotPWPage = () => {
   const { mode } = useThemeContext();
@@ -17,7 +17,6 @@ const ForgotPWPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(email, newPassword);
     await changePasswordViaEmail(email, newPassword, confirmPassword);
   };
 

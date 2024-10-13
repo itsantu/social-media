@@ -99,7 +99,7 @@ export const PostListContextProvider = ({ children }) => {
       setFetching(true);
       try {
         const response = await fetch(
-          "https://social-media-fxfa.onrender.com/api/feed",
+          `${import.meta.env.VITE_BASE_URL}/api/feed`,
           {
             headers: {
               Authorization: `Bearer ${user.token}`,

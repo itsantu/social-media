@@ -1,9 +1,8 @@
-import React from "react";
-import { useThemeContext } from "../../hooks/useThemeContext";
+import { useThemeContext } from "../../../hooks/useThemeContext";
+import { useComment } from "../../../hooks/useComment";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 import { formatDistanceToNowStrict } from "date-fns";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { useComment } from "../../hooks/useComment";
-import { useAuthContext } from "../../hooks/useAuthContext";
 
 const Replies = ({ reply, commentId, postId }) => {
   const { user } = useAuthContext();

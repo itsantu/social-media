@@ -14,7 +14,7 @@ export const useDeleteUser = () => {
     setIsloading(true);
     setError(null);
 
-    const response = await fetch("https://social-media-fxfa.onrender.com/api/user/delete-user", {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/user/delete-user`, {
       method: "DELETE",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ email, password }),

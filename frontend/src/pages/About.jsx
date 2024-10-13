@@ -1,8 +1,8 @@
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useState } from "react";
 import { FaLinkedin, FaInstagram, FaXTwitter } from "react-icons/fa6";
-import Settings from "../components/Settings";
 import { useThemeContext } from "../../hooks/useThemeContext";
+import Settings from "../components/About/Settings";
 
 const About = () => {
   const { user } = useAuthContext();

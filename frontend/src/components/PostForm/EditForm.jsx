@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuthContext} from '../../hooks/useAuthContext'
-import { usePostListContext} from '../../hooks/usePostListContext'
-import { useThemeContext } from "../../hooks/useThemeContext";
+import { useAuthContext} from '../../../hooks/useAuthContext'
+import { usePostListContext} from '../../../hooks/usePostListContext'
+import { useThemeContext } from "../../../hooks/useThemeContext";
 
 const EditForm = () => {
   const {user} = useAuthContext();
@@ -20,7 +20,7 @@ const EditForm = () => {
     e.preventDefault();
     setFetching(true);
 
-    const response = await fetch(`https://social-media-fxfa.onrender.com/api/feed/${post._id}`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/feed/${post._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

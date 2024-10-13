@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useThemeContext } from "../../../hooks/useThemeContext";
+import { useChangePassword } from "../../../hooks/useChangePassword";
 import { IoEye, IoEyeOffSharp } from "react-icons/io5";
-import { useChangePassword } from "../../hooks/useChangePassword";
-import { useThemeContext } from "../../hooks/useThemeContext";
 
 const ChangePassword = () => {
   const { user } = useAuthContext();

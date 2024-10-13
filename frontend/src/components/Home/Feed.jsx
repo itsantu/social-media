@@ -1,16 +1,18 @@
-import { MdDelete } from "react-icons/md";
-import { FaHeart, FaRegEdit, FaRegHeart, FaRegComment } from "react-icons/fa";
-import { usePostListContext } from "../../hooks/usePostListContext";
-import { Link } from "react-router-dom";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { usePostListContext } from "../../../hooks/usePostListContext";
+import { useThemeContext } from "../../../hooks/useThemeContext";
+import { useCommentContext } from "../../../hooks/useCommentContext";
+import { useLikePost } from "../../../hooks/useLikePost";
+
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useLikePost } from "../../hooks/useLikePost";
-import { useThemeContext } from "../../hooks/useThemeContext";
-import { formatDistanceToNow } from "date-fns";
-import { useCommentContext } from "../../hooks/useCommentContext";
-import LikedByModal from "./LikedByModal";
+import { formatDistanceToNowStrict } from "date-fns";
+
+import LikedByModal from "../Modal/LikedByModal";
+import { FaHeart, FaRegEdit, FaRegHeart, FaRegComment } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 const Feed = ({ post }) => {
   const { user } = useAuthContext();
@@ -31,7 +33,7 @@ const Feed = ({ post }) => {
   const handleDelete = async () => {
     setIsDeleting(true);
     const response = await fetch(
-      "https://social-media-fxfa.onrender.com/api/feed/" + post._id,
+      `${import.meta.env.VITE_BASE_URL}/api/feed/${post._id}`,
       {
         method: "DELETE",
         headers: {
@@ -108,7 +110,7 @@ const Feed = ({ post }) => {
 
   return (
     <div className="relative">
-      <div className="border-1 border-slate-200 rounded-lg overflow-hidden shadow-2xl p-3">
+      <div className="border-1 border-slate-200 rounded-lg overflow-hidden shadow-2xl p-3 pb-2">
         <div className="flex items-center justify-between">
           <p
             className={` my-2 ${
@@ -196,8 +198,8 @@ const Feed = ({ post }) => {
             </div>
           )}
         </div>
-        <p className="text-sm text-gray-400 p-3">
-          {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+        <p className="text-[12px] text-gray-400 p-2 pb-1">
+          {formatDistanceToNowStrict(new Date(post.createdAt), { addSuffix: true })}
         </p>
         {isDeleting && (
           <div className="mt-4 text-red-500">Deleting post...</div>

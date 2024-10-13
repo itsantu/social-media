@@ -12,7 +12,7 @@ const useSendOtp = () => {
     setOtpError(false); // Reset any previous errors
     try {
       const response = await axios.post(
-        "https://social-media-fxfa.onrender.com/api/user/get-otp",
+        `${import.meta.env.VITE_BASE_URL}/api/user/get-otp`,
         { email, typeOfRequest, requiredFile },
         { headers: { "Content-Type": "application/json" } }
       );

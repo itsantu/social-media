@@ -22,7 +22,7 @@ export const useForgotPassword = () => {
 
     try {
       const response = await axios.patch(
-        "https://social-media-fxfa.onrender.com/api/user/forgot-password",
+        `${import.meta.env.VITE_BASE_URL}/api/user/forgot-password`,
         { email, newPassword },
         { headers: { "Content-Type": "application/json" } }
       );

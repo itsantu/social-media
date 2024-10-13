@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import useSendOtp from "../../hooks/useSendOtp.js";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useThemeContext } from "../../hooks/useThemeContext.js";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useSendOtp from "../../../hooks/useSendOtp.js";
+import { useThemeContext } from "../../../hooks/useThemeContext.js";
 
 const ForgotPasswordEmail = () => {
   const { mode } = useThemeContext();
@@ -16,7 +16,6 @@ const ForgotPasswordEmail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(email);
     await sendOtp(email, "loginRequest", {});
   };
 
@@ -26,7 +25,7 @@ const ForgotPasswordEmail = () => {
     setError(null);
     try {
       const response = await axios.post(
-        "https://social-media-fxfa.onrender.com/api/user/verify-otp",
+        `${import.meta.env.VITE_BASE_URL}/api/user/verify-otp`,
         { email, OTP },
         { headers: { "Content-Type": "application/json" } }
       );

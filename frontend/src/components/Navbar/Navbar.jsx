@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 import { FaUserCircle } from "react-icons/fa";
-import { useThemeContext } from "../../hooks/useThemeContext";
+import { useThemeContext } from "../../../hooks/useThemeContext";
 
 const Navbar = () => {
   const { user } = useAuthContext();

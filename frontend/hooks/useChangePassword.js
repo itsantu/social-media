@@ -18,7 +18,7 @@ export const useChangePassword = () => {
     setIsloading(true);
     setError(null);
 
-    const response = await fetch("https://social-media-fxfa.onrender.com/api/user/change-password", {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/user/change-password`, {
       method: "PATCH",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ email, currentPassword, newPassword }),

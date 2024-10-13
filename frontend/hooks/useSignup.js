@@ -10,7 +10,7 @@ export const useSignup = () => {
     setIsloading(true);
     setError(null);
 
-    const response = await fetch("https://social-media-fxfa.onrender.com/api/user/signup", {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/user/signup`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ username, email, password, OTP }),

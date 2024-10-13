@@ -12,7 +12,7 @@ export const useLikePost = () => {
     setLikeLoading(true);
     try {
       const response = await axios.put(
-        `https://social-media-fxfa.onrender.com/api/feed/${postId}?username=${user.uname}`,
+        `${import.meta.env.VITE_BASE_URL}/api/feed/${postId}?username=${user.uname}`,
         {},
         {
           headers: {

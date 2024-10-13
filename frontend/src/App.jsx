@@ -1,21 +1,20 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useThemeContext } from "../hooks/useThemeContext";
 
 // pages and components
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
-import PostForm from "./components/PostForm";
-import EditForm from "./components/EditForm";
+import PostForm from "./components/PostForm/PostForm";
+import EditForm from "./components/PostForm/EditForm";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import About from "./pages/About";
-import ChangePassword from "./components/ChangePassword";
-import DeleteUser from "./components/DeleteUser";
-import ForgotPasswordEmail from "./components/ForgotPasswordEmail";
-import ForgotPWPage from "./components/ForgotPWPage";
-import { useEffect } from "react";
-import { useThemeContext } from "../hooks/useThemeContext";
-import CommentModal from "./components/CommentModal";
+import ChangePassword from "./components/User/ChangePassword";
+import DeleteUser from "./components/User/DeleteUser";
+import ForgotPasswordEmail from "./components/User/ForgotPasswordEmail";
+import ForgotPWPage from "./components/User/ForgotPWPage";
 
 function App() {
   const { user } = useAuthContext();
