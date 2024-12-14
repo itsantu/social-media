@@ -13,6 +13,7 @@ const EditForm = () => {
   const post = location.state || {}; // Fallback in case post is undefined
   const [title, setTitle] = useState(post?.title);
   const [description, setDescription] = useState(post?.description);
+  const [privatePost, setPrivatePost] = useState(post?.privatePost); // Visibility state
   const [error, setError] = useState("");
   const [fetching, setFetching] = useState(false);
   
@@ -26,13 +27,13 @@ const EditForm = () => {
         "Content-Type": "application/json",
         'Authorization' : `Bearer ${user.token}`
       },
-      body: JSON.stringify({ title, description }),
+      body: JSON.stringify({ title, description, privatePost }),
     });
 
     
     if (response.ok) {
       // Handle success (e.g., redirect or show a success message)
-      dispatch({type: 'UPDATE_POST', payload: {_id:post._id, title, description}})
+      dispatch({type: 'UPDATE_POST', payload: {_id:post._id, title, description, privatePost}})
       navigate("/");
       setFetching(!fetching);
     } else {
@@ -47,9 +48,44 @@ const EditForm = () => {
       <img
         src={post.imageUrl}
         alt={post.title}
-        className="w-full h-64 object-cover rounded-md"
+        className="w-full h-64 mb-6 object-cover rounded-md"
       />
       <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+          <label
+            className={`block mb-2 ${
+              mode === "dark" ? "text-white" : "text-gray-700"
+            }`}
+          >
+            Visibility
+          </label>
+          <div className="flex flex-col pl-3">
+            <label className="inline-flex items-center mb-2">
+              <input
+                type="radio"
+                value="false"
+                checked={!privatePost}
+                onChange={() => setPrivatePost(false)}
+                className="form-radio text-blue-600"
+              />
+              <span className={`ml-2 ${mode === "dark" && "text-gray-200"}`}>
+                Everyone outside Hello World can also see the post
+              </span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                value="true"
+                checked={privatePost}
+                onChange={() => setPrivatePost(true)}
+                className="form-radio text-blue-600"
+              />
+              <span className={`ml-2 ${mode === "dark" && "text-gray-200"}`}>
+                Only Hello World members can see the post
+              </span>
+            </label>
+          </div>
+        </div>
         <div className="mb-4">
           <label className={`block mb-2 ${mode == 'dark' ? "text-white" : "text-gray-700"}`}>Title</label>
           <input

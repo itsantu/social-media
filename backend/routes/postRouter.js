@@ -3,7 +3,9 @@ const router = express.Router();
 const requireAuth = require("../middleware/requireAuth")
 
 // import controllers
-const { getAllPosts, deletePost, updatePost, likePost } = require("../controllers/postsController");
+const { getAllPosts, deletePost, updatePost, likePost, getPublicPosts } = require("../controllers/postsController");
+
+router.get("/anonymous", getPublicPosts)
 
 router.use(requireAuth)
 // Get all posts

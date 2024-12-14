@@ -15,21 +15,23 @@ import ChangePassword from "./components/User/ChangePassword";
 import DeleteUser from "./components/User/DeleteUser";
 import ForgotPasswordEmail from "./components/User/ForgotPasswordEmail";
 import ForgotPWPage from "./components/User/ForgotPWPage";
+import ProtectedRoute from "./components/Route/ProtectedRoute";
+import { Bounce, Slide, ToastContainer } from "react-toastify";
 
 function App() {
   const { user } = useAuthContext();
-  const { mode } = useThemeContext(); 
-  
+  const { mode } = useThemeContext();
+
   useEffect(() => {
-    if (mode === 'dark') {
-      document.body.style.backgroundColor = '#1a202c'; 
+    if (mode === "dark") {
+      document.body.style.backgroundColor = "#1a202c";
     } else {
-      document.body.style.backgroundColor = '#f7fafc'; 
+      document.body.style.backgroundColor = "#f7fafc";
     }
 
     // Optional cleanup to avoid issues when component unmounts
     return () => {
-      document.body.style.backgroundColor = '';
+      document.body.style.backgroundColor = "";
     };
   }, [mode]); // Re-run when mode changes
 
@@ -38,33 +40,16 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route
-            path="/"
-            element={user ? <Home /> : <Navigate to="/signup" />}
-          />
-          <Route
-            path="/upload"
-            element={user ? <PostForm /> : <Navigate to="/signup" />}
-          />
-          <Route
-            path="/update"
-            element={user ? <EditForm /> : <Navigate to="/signup" />}
-          />
-          <Route
-            path="/about"
-            element={user ? <About /> : <Navigate to="/signup" />}
-          />
-          <Route
-            path="about/changepassword"
-            element={user ? <ChangePassword /> : <Navigate to="/signup" />}
-          />
-          <Route
-            path="about/deleteuser"
-            element={user ? <DeleteUser /> : <Navigate to="/signup" />}
-          />
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route
             path="/login"
             element={!user ? <Login /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/signup"
+            element={!user ? <Signup /> : <Navigate to="/" />}
           />
           <Route
             path="/login/forgot-password-email"
@@ -74,12 +59,56 @@ function App() {
             path="/login/forgot-password"
             element={!user ? <ForgotPWPage /> : <Navigate to="/" />}
           />
+
+          {/* Protected Routes */}
           <Route
-            path="/signup"
-            element={!user ? <Signup /> : <Navigate to="/" />}
+            path="/upload"
+            element={
+              <ProtectedRoute>
+                <PostForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/update"
+            element={
+              <ProtectedRoute>
+                <EditForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/about/changepassword"
+            element={
+              <ProtectedRoute>
+                <ChangePassword />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/about/deleteuser"
+            element={
+              <ProtectedRoute>
+                <DeleteUser />
+              </ProtectedRoute>
+            }
           />
         </Routes>
       </BrowserRouter>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
     </>
   );
 }

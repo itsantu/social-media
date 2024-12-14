@@ -1,5 +1,6 @@
-import { act, createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { toast } from "react-toastify";
 
 export const PostListContext = createContext();
 
@@ -88,7 +89,7 @@ export const PostListReducer = (state, action) => {
 };
 
 export const PostListContextProvider = ({ children }) => {
-  const { user } = useAuthContext();
+  const { user, loading } = useAuthContext();
   const [fetching, setFetching] = useState(false);
   const [state, dispatch] = useReducer(PostListReducer, {
     posts: [],
@@ -98,14 +99,21 @@ export const PostListContextProvider = ({ children }) => {
     const fetchAllPosts = async () => {
       setFetching(true);
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/api/feed`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
+        let response;
+        if (user) {
+          console.log("Authenticated fetch")
+          response = await fetch(
+            `${import.meta.env.VITE_BASE_URL}/api/feed`,
+            {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          );
+        } else {
+          console.log("Anonymous fetch")
+          response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/feed/anonymous`)
+        }
         const json = await response.json();
 
         if (response.ok) {
@@ -118,10 +126,14 @@ export const PostListContextProvider = ({ children }) => {
         setFetching(false);
       }
     };
-    if (user) {
+    if (!loading) {
+      // Fetch only when loading is complete
+      if(!user){
+        toast.success('Login to Share your posts, likes and more...', {delay: 5000, autoClose: 10000})
+      }
       fetchAllPosts();
     }
-  }, [user]);
+  }, [user, loading]);
 
   return (
     <PostListContext.Provider value={{ ...state, fetching, dispatch }}>

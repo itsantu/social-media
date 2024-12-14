@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { usePostListContext } from "../../../hooks/usePostListContext";
 import { useThemeContext } from "../../../hooks/useThemeContext";
@@ -13,13 +13,16 @@ import { formatDistanceToNowStrict } from "date-fns";
 import LikedByModal from "../Modal/LikedByModal";
 import { FaHeart, FaRegEdit, FaRegHeart, FaRegComment } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { MdOutlinePublic,MdPeopleAlt  } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const Feed = ({ post }) => {
   const { user } = useAuthContext();
   const { mode } = useThemeContext();
   const { dispatch } = usePostListContext();
+  const navigate = useNavigate()
   const [isDeleting, setIsDeleting] = useState(null);
-  const [hasLiked, setHasLiked] = useState(post.likedBy[user.uname.trim()]);
+  const [hasLiked, setHasLiked] = useState(post.likedBy[user?.uname.trim()]);
   const [likesCount, setLikesCount] = useState(
     Object.keys(post.likedBy).length
   );
@@ -46,6 +49,7 @@ const Feed = ({ post }) => {
 
     if (response.ok) {
       setIsDeleting(!isDeleting);
+      toast.error("Post deleted successfully")
       dispatch({ type: "DELETE_POST", payload: json });
     }
   };
@@ -56,26 +60,30 @@ const Feed = ({ post }) => {
   };
 
   const handleLike = async () => {
-    try {
-      const result = await likePost({ postId: post._id, token: user.token });
-      if (!likeError) {
-        const { likeResponse, likeCount } = result;
-        setHasLiked(likeResponse);
-        setLikesCount(likeCount);
-        if (hasLiked) {
-          dispatch({
-            type: "REMOVE_LIKE",
-            payload: { _id: post._id, username: user.uname },
-          });
-        } else {
-          dispatch({
-            type: "ADD_LIKE",
-            payload: { _id: post._id, username: user.uname },
-          });
+    if(user){
+      try {
+        const result = await likePost({ postId: post._id, token: user.token });
+        if (!likeError) {
+          const { likeResponse, likeCount } = result;
+          setHasLiked(likeResponse);
+          setLikesCount(likeCount);
+          if (hasLiked) {
+            dispatch({
+              type: "REMOVE_LIKE",
+              payload: { _id: post._id, username: user?.uname },
+            });
+          } else {
+            dispatch({
+              type: "ADD_LIKE",
+              payload: { _id: post._id, username: user?.uname },
+            });
+          }
         }
+      } catch (error) {
+        return;
       }
-    } catch (error) {
-      return;
+    } else {
+      toast.error('Login to Like the post!')
     }
   };
 
@@ -95,8 +103,12 @@ const Feed = ({ post }) => {
 
   const { dispatch: commentDispatch } = useCommentContext();
   const handleCommentClick = () => {
-    commentDispatch({ type: "SET_POST", payload:  post  });
-    commentDispatch({ type: "OPEN_COMMENTS" });
+    if(user){
+      commentDispatch({ type: "SET_POST", payload:  post  });
+      commentDispatch({ type: "OPEN_COMMENTS" });
+    } else {
+      navigate('/signup')
+    }
   };
 
   const [showLikedBy, setShowLikedBy] = useState(false)
@@ -119,11 +131,14 @@ const Feed = ({ post }) => {
           >
             @{post.createdBy.username}
           </p>
-          {user.uname === post.createdBy.username && (
+          <div className="flex items-center gap-4">
+          {post.privatePost ? <MdPeopleAlt className="text-xl text-gray-400" title="Member View Only"/> : <MdOutlinePublic className="text-xl text-gray-400" title="Public View"/>}
+          {user?.uname === post.createdBy.username && (
             <Link to="/update" state={post}>
-              <FaRegEdit className="text-xl cursor-pointer" />
+              <FaRegEdit className="text-xl cursor-pointer" title="Edit the post"/>
             </Link>
           )}
+          </div>
         </div>
         <div className="relative w-full text-center">
           <LazyLoadImage
@@ -189,7 +204,7 @@ const Feed = ({ post }) => {
             </div>
           </div>
 
-          {user.uname === post.createdBy.username && (
+          {user?.uname === post.createdBy.username && (
             <div
               onClick={() => setDeleteConfirmDialogue(true)}
               className="delete-btn flex justify-center items-center cursor-pointer bg-red-500 hover:bg-red-700 duration-150 p-2 rounded-lg text-2xl text-white"
