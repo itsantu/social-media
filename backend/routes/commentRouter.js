@@ -4,9 +4,9 @@ const requireAuth = require("../middleware/requireAuth");
 const { getComments, addComment, deleteComment, addReply, deleteReply } = require("../controllers/commentController");
 
 
-router.use(requireAuth);
-
 router.get("/:id", getComments);    // gets comments based on Post Id
+
+router.use(requireAuth);
 
 router.post("/add-comment/:id", addComment);    // posts comments based on Post Id
 

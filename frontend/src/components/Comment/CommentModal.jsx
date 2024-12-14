@@ -28,7 +28,7 @@ function CommentModal() {
           `${import.meta.env.VITE_BASE_URL}/api/feed/comments/${post._id}`,
           {
             headers: {
-              Authorization: `Bearer ${user.token}`,
+              Authorization: `Bearer ${user?.token}`,
             },
             signal,
           }
@@ -54,7 +54,7 @@ function CommentModal() {
       dispatch({ type: "CLEAR_COMMENTS" });
       controller.abort();
     };
-  }, [post._id, user.token]);
+  }, [post._id, user?.token]);
 
   const handleCloseComments = () => {
     dispatch({ type: "CLOSE_COMMENTS" });
@@ -129,10 +129,12 @@ function CommentModal() {
               onChange={(e) => setCommentValue(e.target.value)}
               placeholder="Write a comment..."
               required
+              disabled={!user}
             />
             <button
               onClick={(e) => handleAddComment(e)}
               className="ml-2 px-3 py-1 bg-blue-500 text-white text-xl rounded cursor-pointer"
+              disabled={!user}
             >
               <IoMdSend />
             </button>

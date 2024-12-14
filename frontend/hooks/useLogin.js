@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+import { toast } from "react-toastify";
 
 export const useLogin = () => {
   const [error, setError] = useState(null);
@@ -26,6 +27,7 @@ export const useLogin = () => {
       // save the user to local storage
       localStorage.setItem("user", JSON.stringify(json));
 
+      toast.success("Logged in successfully😀")
       //update the authContext
       dispatch({ type: "LOGIN", payload: json });
       setIsloading(false);

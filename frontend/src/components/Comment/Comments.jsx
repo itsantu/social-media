@@ -75,7 +75,7 @@ function Comments({ comment }) {
           <p className="text-[12px] min-w-16 text-gray-400 text-end">
             {formatDistanceToNowStrict(new Date(comment.createdAt))}
           </p>
-          {comment.username === user.uname && (
+          {comment.username === user?.uname && (
             <div
               onClick={handleDeleteComment}
               className="cursor-pointer hover:bg-gray-600 p-1 rounded-md duration-100"
@@ -89,7 +89,7 @@ function Comments({ comment }) {
         {deleteCommentLoading && <div className="text-[10px] text-red-500 mt-1">Deleting...</div>}
       {/* Reply Section */}
 
-      <div className="pl-3 mt-2 mb-2">
+      {user && <div className="pl-3 mt-2 mb-2">
         <p
           className="text-sm text-gray-400"
           onClick={() => setIsOpenReply((prev) => !prev)}
@@ -127,7 +127,7 @@ function Comments({ comment }) {
             </p>
           </div>
         )}
-      </div>
+      </div>}
 
       {comment.replies?.length > 0 && !showReply ? (
         <div onClick={() => setShowReply(true)}>

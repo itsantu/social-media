@@ -10,6 +10,20 @@ const getAllPosts = async (req, res) => {
   res.status(200).json(posts);
 };
 
+
+const getPublicPosts = async (req, res) => {
+  try {
+    const posts = await Post.find({ privatePost: false }) 
+      .populate("createdBy", "username") 
+      .sort({ createdAt: -1 }); 
+    
+    res.status(200).json(posts); // Send the posts as a JSON response
+  } catch (error) {
+    console.error("Error fetching public posts:", error);
+    res.status(500).json({ message: "Failed to fetch public posts." }); // Handle errors
+  }
+};
+
 // Delete a post
 const deletePost = async (req, res) => {
   const { id } = req.params;
@@ -46,13 +60,13 @@ const updatePost = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "No such post" });
   }
-  const { title, description } = req.body;
+  const { title, description, privatePost } = req.body;
 
   try {
     // Update the post
     const updatedPost = await Post.findByIdAndUpdate(
       id,
-      { title, description },
+      { title, description, privatePost },
       { new: true } // Return the updated document
     );
 
@@ -100,4 +114,4 @@ const likePost = async (req, res) => {
   }
 };
 
-module.exports = { getAllPosts, deletePost, updatePost, likePost };
+module.exports = { getAllPosts,getPublicPosts, deletePost, updatePost, likePost };

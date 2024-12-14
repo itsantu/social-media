@@ -23,6 +23,10 @@ const postSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    privatePost: {
+        type: Boolean,
+        default: false
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

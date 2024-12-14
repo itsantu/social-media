@@ -10,7 +10,7 @@ router.use(requireAuth);
 
 router.post("/", upload.single("image"), async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, privatePost } = req.body;
 
     if (!req.file) {
       return res.status(400).json({ error: "Image file is required" });
@@ -41,6 +41,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       description,
       imageUrl,
       createdBy: userId,
+      privatePost
     });
 
     res.status(201).json(newPost);
